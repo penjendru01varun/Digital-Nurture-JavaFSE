@@ -1,0 +1,289 @@
+
+EcommerceSearch/
+├── Product.java
+├── LinearSearch.java
+├── BinarySearch.java
+├── SearchTest.java
+└── ANALYSIS.md
+
+1. `Product.java`
+
+public class Product {
+    private int productId;
+    private String productName;
+    private String category;
+
+    public Product(int productId, String productName, String category) {
+        this.productId = productId;
+        this.productName = productName;
+        this.category = category;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    @Override
+    public String toString() {
+        return "Product [ID=" + productId + ", Name=" + productName + ", Category=" + category + "]";
+    }
+}
+
+
+2. LinearSearch.java
+
+
+public class LinearSearch {
+
+    public static Product searchById(Product[] products, int targetId) {
+        for (int i = 0; i < products.length; i++) {
+            if (products[i].getProductId() == targetId) {
+                return products[i];
+            }
+        }
+        return null;
+    }
+
+    public static Product searchByName(Product[] products, String targetName) {
+        for (int i = 0; i < products.length; i++) {
+            if (products[i].getProductName().equalsIgnoreCase(targetName)) {
+                return products[i];
+            }
+        }
+        return null;
+    }
+
+    public static Product searchByCategory(Product[] products, String targetCategory) {
+        for (int i = 0; i < products.length; i++) {
+            if (products[i].getCategory().equalsIgnoreCase(targetCategory)) {
+                return products[i];
+            }
+        }
+        return null;
+    }
+}
+
+ 3. BinarySearch.java
+
+
+import java.util.Arrays;
+
+public class BinarySearch {
+
+    public static Product searchById(Product[] products, int targetId) {
+        int left = 0;
+        int right = products.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (products[mid].getProductId() == targetId) {
+                return products[mid];
+            }
+
+            if (products[mid].getProductId() < targetId) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return null;
+    }
+
+    public static void sortById(Product[] products) {
+        Arrays.sort(products, (p1, p2) -> Integer.compare(p1.getProductId(), p2.getProductId()));
+    }
+}
+ 4. SearchTest.java
+
+
+public class SearchTest {
+
+    public static void main(String[] args) {
+        Product[] products = {
+            new Product(101, "Laptop", "Electronics"),
+            new Product(205, "Smartphone", "Electronics"),
+            new Product(150, "Headphones", "Electronics"),
+            new Product(302, "T-Shirt", "Clothing"),
+            new Product(450, "Jeans", "Clothing"),
+            new Product(510, "Shoes", "Footwear"),
+            new Product(620, "Watch", "Accessories"),
+            new Product(730, "Bag", "Accessories")
+        };
+
+        System.out.println("=== E-commerce Platform Search Function ===\n");
+
+        System.out.println("--- Linear Search (Unsorted Array) ---");
+        long startTime = System.nanoTime();
+        Product result1 = LinearSearch.searchById(products, 450);
+        long endTime = System.nanoTime();
+        System.out.println("Search for ID 450: " + (result1 != null ? result1 : "Not found"));
+        System.out.println("Time taken: " + (endTime - startTime) + " nanoseconds");
+
+        startTime = System.nanoTime();
+        Product result2 = LinearSearch.searchByName(products, "Headphones");
+        endTime = System.nanoTime();
+        System.out.println("Search for 'Headphones': " + (result2 != null ? result2 : "Not found"));
+        System.out.println("Time taken: " + (endTime - startTime) + " nanoseconds");
+
+        System.out.println("\n--- Binary Search (Sorted Array) ---");
+        Product[] sortedProducts = products.clone();
+        BinarySearch.sortById(sortedProducts);
+
+        System.out.println("Sorted Products by ID:");
+        for (Product p : sortedProducts) {
+            System.out.println("  " + p.getProductId());
+        }
+
+        startTime = System.nanoTime();
+        Product result3 = BinarySearch.searchById(sortedProducts, 450);
+        endTime = System.nanoTime();
+        System.out.println("Search for ID 450: " + (result3 != null ? result3 : "Not found"));
+        System.out.println("Time taken: " + (endTime - startTime) + " nanoseconds");
+
+        startTime = System.nanoTime();
+        Product result4 = BinarySearch.searchById(sortedProducts, 999);
+        endTime = System.nanoTime();
+        System.out.println("Search for ID 999 (not exists): " + (result4 != null ? result4 : "Not found"));
+        System.out.println("Time taken: " + (endTime - startTime) + " nanoseconds");
+
+        System.out.println("\n=== Big O Analysis ===");
+        System.out.println("Linear Search:");
+        System.out.println("  Best Case: O(1) - Target is first element");
+        System.out.println("  Average Case: O(n) - Target is in middle");
+        System.out.println("  Worst Case: O(n) - Target is last or not present");
+
+        System.out.println("\nBinary Search:");
+        System.out.println("  Best Case: O(1) - Target is middle element");
+        System.out.println("  Average Case: O(log n) - Target is somewhere in array");
+        System.out.println("  Worst Case: O(log n) - Target is not present");
+
+        System.out.println("\n=== Comparison for E-commerce Platform ===");
+        System.out.println("Linear Search: Simple, works on unsorted data");
+        System.out.println("Binary Search: Faster, requires sorted data");
+        System.out.println("For large e-commerce platforms with millions of products:");
+        System.out.println("  - Binary Search is MORE SUITABLE for ID-based searches");
+        System.out.println("  - Requires maintaining sorted data or indexing");
+        System.out.println("  - Hash maps can provide O(1) lookup for ultimate performance");
+    }
+}
+
+ 5. ANALYSIS.md
+
+`markdown
+
+
+ 1. Big O Notation
+
+Big O notation describes the upper bound of an algorithm's growth rate. It measures how runtime or space requirements increase as input size grows.
+
+| Notation | Name | Description |
+|----------|------|-------------|
+| O(1) | Constant | Runtime does not change with input size |
+| O(log n) | Logarithmic | Runtime grows slowly, halves problem each step |
+| O(n) | Linear | Runtime grows proportionally with input size |
+| O(n log n) | Linearithmic | Common in efficient sorting algorithms |
+| O(n²) | Quadratic | Runtime grows with square of input size |
+
+ 2. Time Complexity Comparison
+
+| Aspect | Linear Search | Binary Search |
+|--------|---------------|-------------|
+| Best Case | O(1) | O(1) |
+| Average Case | O(n) | O(log n) |
+| Worst Case | O(n) | O(log n) |
+| Space Complexity | O(1) | O(1) |
+
+ 3. Best, Average, Worst Case Scenarios
+
+ Linear Search
+- Best Case: Target element is at index 0 (first position)
+- Average Case: Target element is at middle position
+- Worst Case: Target element is at last position or not present
+
+ Binary Search
+- Best Case: Target element is at middle position on first check
+- Average Case: Target element requires multiple halving operations
+- Worst Case: Target element is not present, requires maximum halving
+
+
+
+ 5. Which Algorithm is More Suitable?
+
+Binary Search is MORE SUITABLE for an e-commerce platform.
+
+ Reasons:
+1. Scale: E-commerce platforms have millions of products
+2. Performance: O(log n) is exponentially faster than O(n)
+3. User Experience: Instant search results are expected
+4. ID-based Lookups: Product IDs are naturally sortable
+5. Database Indexing: Real platforms use B-trees (binary search extension)
+ 6. Practical Implementation
+
+| Scenario | Recommended Approach |
+|----------|---------------------|
+| Small catalog (< 1000 products) | Linear search |
+| Large catalog (millions of products) | Binary search with sorted arrays |
+| Production platform | Hash Map (O(1)) + Database indexing |
+| Full-text search | Trie, Inverted Index, Elasticsearch |
+
+ 7. Conclusion
+
+For e-commerce platform search:
+- Use Binary Search for product ID lookups with sorted data
+- Use Hash Maps for O(1) performance in production
+- Linear Search is only acceptable for very small datasets
+
+
+Expected Output
+E-commerce Platform Search Function 
+
+Linear Search (Unsorted Array)
+Search for ID 450: Product [ID=450, Name=Jeans, Category=Clothing]
+Time taken: 1523 nanoseconds
+Search for 'Headphones': Product [ID=150, Name=Headphones, Category=Electronics]
+Time taken: 876 nanoseconds
+
+Binary Search (Sorted Array) 
+Sorted Products by ID:
+  101
+  150
+  205
+  302
+  450
+  510
+  620
+  730
+Search for ID 450: Product [ID=450, Name=Jeans, Category=Clothing]
+Time taken: 456 nanoseconds
+Search for ID 999 (not exists): Not found
+Time taken: 234 nanoseconds
+
+Big O Analysis 
+Linear Search:
+  Best Case: O(1) - Target is first element
+  Average Case: O(n) - Target is in middle
+  Worst Case: O(n) - Target is last or not present
+
+Binary Search:
+  Best Case: O(1) - Target is middle element
+  Average Case: O(log n) - Target is somewhere in array
+  Worst Case: O(log n) - Target is not present
+
+Comparison for E-commerce Platform 
+Linear Search: Simple, works on unsorted data
+Binary Search: Faster, requires sorted data
+For large e-commerce platforms with millions of products:
+  - Binary Search is MORE SUITABLE for ID-based searches
+  - Requires maintaining sorted data or indexing
+  - Hash maps can provide O(1) lookup for ultimate performance
+
+

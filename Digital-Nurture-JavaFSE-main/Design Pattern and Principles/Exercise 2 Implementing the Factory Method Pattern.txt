@@ -1,0 +1,197 @@
+Project Structure
+
+FactoryMethodPatternExample/
+├── Document.java
+├── WordDocument.java
+├── PdfDocument.java
+├── ExcelDocument.java
+├── DocumentFactory.java
+├── WordDocumentFactory.java
+├── PdfDocumentFactory.java
+├── ExcelDocumentFactory.java
+└── FactoryMethodTest.java
+
+
+1. Document.java (Interface)
+
+public interface Document {
+    void open();
+    void close();
+    void save();
+    String getDocumentType();
+}
+2. WordDocument.java (Concrete Class)
+
+public class WordDocument implements Document {
+    
+    @Override
+    public void open() {
+        System.out.println("Opening Word document...");
+    }
+    
+    @Override
+    public void close() {
+        System.out.println("Closing Word document...");
+    }
+    
+    @Override
+    public void save() {
+        System.out.println("Saving Word document...");
+    }
+    
+    @Override
+    public String getDocumentType() {
+        return "Word Document";
+    }
+}
+ 3. PdfDocument.java (Concrete Class)
+
+public class PdfDocument implements Document {
+    
+    @Override
+    public void open() {
+        System.out.println("Opening PDF document...");
+    }
+    
+    @Override
+    public void close() {
+        System.out.println("Closing PDF document...");
+    }
+    
+    @Override
+    public void save() {
+        System.out.println("Saving PDF document...");
+    }
+    
+    @Override
+    public String getDocumentType() {
+        return "PDF Document";
+    }
+}
+ 4. ExcelDocument.java (Concrete Class)
+
+public class ExcelDocument implements Document {
+    
+    @Override
+    public void open() {
+        System.out.println("Opening Excel document...");
+    }
+    
+    @Override
+    public void close() {
+        System.out.println("Closing Excel document...");
+    }
+    
+    @Override
+    public void save() {
+        System.out.println("Saving Excel document...");
+    }
+    
+    @Override
+    public String getDocumentType() {
+        return "Excel Document";
+    }
+}
+5. DocumentFactory.java (Abstract Factory Class)
+
+
+public abstract class DocumentFactory {
+    
+    public abstract Document createDocument();
+    
+    public void performOperations() {
+        Document document = createDocument();
+        document.open();
+        document.save();
+        document.close();
+    }
+}
+ 6. WordDocumentFactory.java (Concrete Factory)
+
+
+public class WordDocumentFactory extends DocumentFactory {
+    
+    @Override
+    public Document createDocument() {
+        System.out.println("Creating Word document using factory...");
+        return new WordDocument();
+    }
+}
+
+
+7. PdfDocumentFactory.java (Concrete Factory)
+
+
+public class PdfDocumentFactory extends DocumentFactory {
+    
+    @Override
+    public Document createDocument() {
+        System.out.println("Creating PDF document using factory...");
+        return new PdfDocument();
+    }
+}
+
+ 8. ExcelDocumentFactory.java (Concrete Factory)
+
+
+public class ExcelDocumentFactory extends DocumentFactory {
+    
+    @Override
+    public Document createDocument() {
+        System.out.println("Creating Excel document using factory...");
+        return new ExcelDocument();
+    }
+}
+
+9. FactoryMethodTest.java (Test Class)
+
+
+public class FactoryMethodTest {
+    
+    public static void main(String[] args) {
+        System.out.println("=== Factory Method Pattern Test ===\n");
+        
+        System.out.println("--- Creating Word Document ---");
+        DocumentFactory wordFactory = new WordDocumentFactory();
+        Document wordDoc = wordFactory.createDocument();
+        wordDoc.open();
+        wordDoc.save();
+        wordDoc.close();
+        System.out.println("Document type: " + wordDoc.getDocumentType());
+        
+        System.out.println("\n--- Creating PDF Document ---");
+        DocumentFactory pdfFactory = new PdfDocumentFactory();
+        Document pdfDoc = pdfFactory.createDocument();
+        pdfDoc.open();
+        pdfDoc.save();
+        pdfDoc.close();
+        System.out.println("Document type: " + pdfDoc.getDocumentType());
+        
+        System.out.println("\n--- Creating Excel Document ---");
+        DocumentFactory excelFactory = new ExcelDocumentFactory();
+        Document excelDoc = excelFactory.createDocument();
+        excelDoc.open();
+        excelDoc.save();
+        excelDoc.close();
+        System.out.println("Document type: " + excelDoc.getDocumentType());
+        
+        System.out.println("\n--- Using performOperations() Method ---");
+        System.out.println("Word:");
+        wordFactory.performOperations();
+        
+        System.out.println("\nPDF:");
+        pdfFactory.performOperations();
+        
+        System.out.println("\nExcel:");
+        excelFactory.performOperations();
+        
+        System.out.println("\n=== Verification ===");
+        System.out.println("wordDoc is WordDocument: " + (wordDoc instanceof WordDocument));
+        System.out.println("pdfDoc is PdfDocument: " + (pdfDoc instanceof PdfDocument));
+        System.out.println("excelDoc is ExcelDocument: " + (excelDoc instanceof ExcelDocument));
+        
+        System.out.println("\nAll document types created successfully!");
+    }
+}
+
+
