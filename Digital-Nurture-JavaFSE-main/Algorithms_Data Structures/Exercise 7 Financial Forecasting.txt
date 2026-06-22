@@ -1,0 +1,93 @@
+FinancialForecasting.java
+public class FinancialForecasting {
+    
+    public static double calculateFutureValueRecursive(double presentValue, double growthRate, int years) {
+        if (years == 0) {
+            return presentValue;
+        }
+        return calculateFutureValueRecursive(presentValue * (1 + growthRate), growthRate, years - 1);
+    }
+    
+    public static double calculateFutureValueIterative(double presentValue, double growthRate, int years) {
+        double futureValue = presentValue;
+        for (int i = 0; i < years; i++) {
+            futureValue *= (1 + growthRate);
+        }
+        return futureValue;
+    }
+    
+    public static double calculateFutureValueMemoized(double presentValue, double growthRate, int years) {
+        double[] memo = new double[years + 1];
+        return calculateFutureValueMemoizedHelper(presentValue, growthRate, years, memo);
+    }
+    
+    private static double calculateFutureValueMemoizedHelper(double presentValue, double growthRate, int years, double[] memo) {
+        if (years == 0) {
+            return presentValue;
+        }
+        if (memo[years] != 0) {
+            return memo[years];
+        }
+        memo[years] = calculateFutureValueMemoizedHelper(presentValue * (1 + growthRate), growthRate, years - 1, memo);
+        return memo[years];
+    }
+    
+    public static double calculateFutureValueFormula(double presentValue, double growthRate, int years) {
+        return presentValue * Math.pow(1 + growthRate, years);
+    }
+}
+
+
+FinancialForecastingTest.java
+
+public class FinancialForecastingTest {
+    
+    public static void main(String[] args) {
+        double presentValue = 10000.0;
+        double growthRate = 0.05;
+        int years = 10;
+        
+        System.out.println("=== Financial Forecasting Test ===");
+        System.out.println("Present Value: $" + presentValue);
+        System.out.println("Annual Growth Rate: " + (growthRate * 100) + "%");
+        System.out.println("Years: " + years);
+        System.out.println();
+        
+        System.out.println("--- Recursive Approach ---");
+        long startTime = System.nanoTime();
+        double futureValueRecursive = FinancialForecasting.calculateFutureValueRecursive(presentValue, growthRate, years);
+        long endTime = System.nanoTime();
+        System.out.println("Future Value: $" + String.format("%.2f", futureValueRecursive));
+        System.out.println("Time taken: " + (endTime - startTime) + " nanoseconds");
+        System.out.println();
+        
+        System.out.println("--- Iterative Approach ---");
+        startTime = System.nanoTime();
+        double futureValueIterative = FinancialForecasting.calculateFutureValueIterative(presentValue, growthRate, years);
+        endTime = System.nanoTime();
+        System.out.println("Future Value: $" + String.format("%.2f", futureValueIterative));
+        System.out.println("Time taken: " + (endTime - startTime) + " nanoseconds");
+        System.out.println();
+        
+        System.out.println("--- Memoized Approach ---");
+        startTime = System.nanoTime();
+        double futureValueMemoized = FinancialForecasting.calculateFutureValueMemoized(presentValue, growthRate, years);
+        endTime = System.nanoTime();
+        System.out.println("Future Value: $" + String.format("%.2f", futureValueMemoized));
+        System.out.println("Time taken: " + (endTime - startTime) + " nanoseconds");
+        System.out.println();
+        
+        System.out.println("--- Direct Formula Approach ---");
+        startTime = System.nanoTime();
+        double futureValueFormula = FinancialForecasting.calculateFutureValueFormula(presentValue, growthRate, years);
+        endTime = System.nanoTime();
+        System.out.println("Future Value: $" + String.format("%.2f", futureValueFormula));
+        System.out.println("Time taken: " + (endTime - startTime) + " nanoseconds");
+        System.out.println();
+        
+        System.out.println("=== All Results Match: " + 
+            (futureValueRecursive == futureValueIterative && 
+             futureValueIterative == futureValueMemoized && 
+             futureValueMemoized == futureValueFormula) + " ===");
+    }
+}
