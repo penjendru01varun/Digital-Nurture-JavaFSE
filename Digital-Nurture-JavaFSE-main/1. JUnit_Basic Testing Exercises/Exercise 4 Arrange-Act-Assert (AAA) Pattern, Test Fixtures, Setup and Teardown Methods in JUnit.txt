@@ -1,0 +1,237 @@
+ JUnit 4 Solution
+
+
+import org.junit.Before;
+import org.junit.After;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class CalculatorTest {
+
+    private Calculator calculator;
+
+    @Before
+    public void setUp() {
+        calculator = new Calculator();
+    }
+
+    @After
+    public void tearDown() {
+        calculator = null;
+    }
+
+    @Test
+    public void testAddition() {
+        int a = 5;
+        int b = 3;
+
+        int result = calculator.add(a, b);
+
+        assertEquals(8, result);
+    }
+
+    @Test
+    public void testSubtraction() {
+        int a = 10;
+        int b = 4;
+
+        int result = calculator.subtract(a, b);
+
+        assertEquals(6, result);
+    }
+
+    @Test
+    public void testMultiplication() {
+        int a = 4;
+        int b = 5;
+
+        int result = calculator.multiply(a, b);
+
+        assertEquals(20, result);
+    }
+
+    @Test
+    public void testDivision() {
+        int a = 20;
+        int b = 4;
+
+        int result = calculator.divide(a, b);
+
+        assertEquals(5, result);
+    }
+}
+
+ Calculator Class (to be tested)
+
+
+public class Calculator {
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int subtract(int a, int b) {
+        return a - b;
+    }
+
+    public int multiply(int a, int b) {
+        return a * b;
+    }
+
+    public int divide(int a, int b) {
+        if (b == 0) {
+            throw new ArithmeticException("Cannot divide by zero");
+        }
+        return a / b;
+    }
+}
+
+ JUnit 5 Equivalent
+
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class CalculatorTestJUnit5 {
+
+    private Calculator calculator;
+
+    @BeforeEach
+    public void setUp() {
+        calculator = new Calculator();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        calculator = null;
+    }
+
+    @Test
+    public void testAddition() {
+        int a = 5;
+        int b = 3;
+
+        int result = calculator.add(a, b);
+
+        assertEquals(8, result);
+    }
+
+    @Test
+    public void testSubtraction() {
+        int a = 10;
+        int b = 4;
+
+        int result = calculator.subtract(a, b);
+
+        assertEquals(6, result);
+    }
+
+    @Test
+    public void testMultiplication() {
+        int a = 4;
+        int b = 5;
+
+        int result = calculator.multiply(a, b);
+
+        assertEquals(20, result);
+    }
+
+    @Test
+    public void testDivision() {
+        int a = 20;
+        int b = 4;
+
+        int result = calculator.divide(a, b);
+
+        assertEquals(5, result);
+    }
+
+    @Test
+    public void testDivisionByZero() {
+        int a = 10;
+        int b = 0;
+
+        Exception exception = assertThrows(ArithmeticException.class, () -> {
+            calculator.divide(a, b);
+        });
+
+        assertEquals("Cannot divide by zero", exception.getMessage());
+    }
+}
+
+Example with @BeforeClass and @AfterClass (JUnit 4)
+
+
+import org.junit.BeforeClass;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.After;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class DatabaseTest {
+
+    private static DatabaseConnection dbConnection;
+
+    @BeforeClass
+    public static void initDatabase() {
+        dbConnection = new DatabaseConnection();
+        dbConnection.connect();
+    }
+
+    @AfterClass
+    public static void closeDatabase() {
+        dbConnection.disconnect();
+    }
+
+    @Before
+    public void setUp() {
+        dbConnection.clearData();
+    }
+
+    @After
+    public void tearDown() {
+        dbConnection.rollbackTransaction();
+    }
+
+    @Test
+    public void testInsert() {
+        User user = new User("John", 25);
+
+        dbConnection.insert(user);
+
+        assertNotNull(dbConnection.findByName("John"));
+    }
+
+    @Test
+    public void testDelete() {
+        User user = new User("Jane", 30);
+        dbConnection.insert(user);
+
+        dbConnection.delete(user);
+
+        assertNull(dbConnection.findByName("Jane"));
+    }
+}
+ Maven Dependencies
+
+**JUnit 4:**
+
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+</dependency>
+```
+
+**JUnit 5:**
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>5.10.0</version>
+    <scope>test</scope>
+</dependency>
