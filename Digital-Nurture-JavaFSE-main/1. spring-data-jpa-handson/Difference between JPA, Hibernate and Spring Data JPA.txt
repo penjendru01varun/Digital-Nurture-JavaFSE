@@ -1,0 +1,104 @@
+ 1. Java Persistence API (JPA)
+
+- JSR 338 Specification for persisting, reading, and managing data from Java objects
+- Defines standard interfaces and annotations (`EntityManager`, `EntityTransaction`, `@Entity`, `@Table`, etc.)
+- Does NOT contain any concrete implementation
+- Multiple vendors can implement it (Hibernate, EclipseLink, OpenJPA)
+
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+
+
+ 2. Hibernate
+
+- ORM Tool that implements the JPA specification
+- One of the most popular JPA implementations
+- Can also work independently of JPA using its native API
+- Handles object-relational mapping, connection pooling, caching, and SQL generation
+
+
+Session session = factory.openSession();
+Transaction tx = session.beginTransaction();
+Integer id = (Integer) session.save(employee);
+tx.commit();
+session.close();
+```
+
+Hibernate Core Objects:
+| Object | Purpose |
+|--------|---------|
+| `SessionFactory` | Heavyweight, thread-safe factory for Session objects |
+| `Session` | Lightweight, single-threaded unit of work |
+| `Transaction` | Manages database transactions |
+| `ConnectionProvider` | Provides JDBC connections |
+
+
+
+
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+    // CRUD methods are auto-generated
+}
+
+
+
+ Hibernate (Verbose)
+
+public Integer addEmployee(Employee employee) {
+    Session session = factory.openSession();
+    Transaction tx = null;
+    Integer employeeID = null;
+    
+    try {
+        tx = session.beginTransaction();
+        employeeID = (Integer) session.save(employee);
+        tx.commit();
+    } catch (HibernateException e) {
+        if (tx != null) tx.rollback();
+        e.printStackTrace();
+    } finally {
+        session.close();
+    }
+    return employeeID;
+}
+
+ Spring Data JPA (Minimal)
+
+// Repository Interface
+public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+}
+
+@Service
+public class EmployeeService {
+    
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Transactional
+    public void addEmployee(Employee employee) {
+        employeeRepository.save(employee);  // One line!
+    }
+}
+
+ Architecture Hierarchy
+
+
+┌─────────────────────────────────────────┐
+│         Spring Data JPA                 │  ← Abstraction Layer
+│    (Repository pattern, @Transactional) │
+├─────────────────────────────────────────┤
+│              JPA (JSR 338)              │  ← Specification
+│   (EntityManager, EntityTransaction)    │
+├─────────────────────────────────────────┤
+│    Hibernate / EclipseLink / OpenJPA    │  ← Implementation
+│   (Session, SessionFactory, ORM engine) │
+├─────────────────────────────────────────┤
+│              JDBC / Database            │  ← Physical Layer
+└─────────────────────────────────────────┘
+
+

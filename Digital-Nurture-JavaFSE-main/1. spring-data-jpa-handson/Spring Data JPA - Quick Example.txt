@@ -1,0 +1,230 @@
+1. Project Setup (pom.xml)
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.0</version>
+        <relativePath/>
+    </parent>
+    
+    <groupId>com.cognizant</groupId>
+    <artifactId>orm-learn</artifactId>
+    <version>1.0.0</version>
+    <name>orm-learn</name>
+    <description>Demo project for Spring Data JPA and Hibernate</description>
+    
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+2. application.properties
+properties
+# Spring Framework and application log
+logging.level.org.springframework=info
+logging.level.com.cognizant=debug
+
+# Hibernate logs for displaying executed SQL, input and output
+logging.level.org.hibernate.SQL=trace
+logging.level.org.hibernate.type.descriptor.sql=trace
+
+# Log pattern
+logging.pattern.console=%d{dd-MM-yy} %d{HH:mm:ss.SSS} %-20.20thread %5p %-25.25logger{25} %25M %4L %m%n
+
+# Database configuration
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/ormlearn
+spring.datasource.username=root
+spring.datasource.password=root
+
+# Hibernate configuration
+spring.jpa.hibernate.ddl-auto=validate
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+3. Country Entity (com.cognizant.ormlearn.model.Country)
+
+
+package com.cognizant.ormlearn.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "country")
+public class Country {
+
+    @Id
+    @Column(name = "co_code")
+    private String code;
+
+    @Column(name = "co_name")
+    private String name;
+
+    public Country() {
+    }
+
+    public Country(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Country [code=" + code + ", name=" + name + "]";
+    }
+}
+
+ 4. CountryRepository (com.cognizant.ormlearn.repository)
+
+
+package com.cognizant.ormlearn.repository;
+
+import com.cognizant.ormlearn.model.Country;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CountryRepository extends JpaRepository<Country, String> {
+}
+
+ 5. CountryService (com.cognizant.ormlearn.service)
+
+
+package com.cognizant.ormlearn.service;
+
+import com.cognizant.ormlearn.model.Country;
+import com.cognizant.ormlearn.repository.CountryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+public class CountryService {
+
+    @Autowired
+    private CountryRepository countryRepository;
+
+    @Transactional
+    public List<Country> getAllCountries() {
+        return countryRepository.findAll();
+    }
+}
+ 6. OrmLearnApplication (Main Class)
+
+
+package com.cognizant.ormlearn;
+
+import com.cognizant.ormlearn.model.Country;
+import com.cognizant.ormlearn.service.CountryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+
+import java.util.List;
+
+@SpringBootApplication
+public class OrmLearnApplication {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrmLearnApplication.class);
+    private static CountryService countryService;
+
+    public static void main(String[] args) {
+        ApplicationContext context = SpringApplication.run(OrmLearnApplication.class, args);
+        LOGGER.info("Inside main");
+
+        countryService = context.getBean(CountryService.class);
+
+        testGetAllCountries();
+    }
+
+    private static void testGetAllCountries() {
+        LOGGER.info("Start");
+        List<Country> countries = countryService.getAllCountries();
+        LOGGER.debug("countries={}", countries);
+        LOGGER.info("End");
+    }
+}
+ Database Setup
+
+
+CREATE SCHEMA ormlearn;
+
+USE ormlearn;
+
+CREATE TABLE country (
+    co_code VARCHAR(2) PRIMARY KEY,
+    co_name VARCHAR(50)
+);
+
+INSERT INTO country VALUES ('IN', 'India');
+INSERT INTO country VALUES ('US', 'United States of America');
+
+Output
+
+
+28-06-26 21:58:12.345 main                 INFO  o.s.b.SpringApplication      655 Starting OrmLearnApplication using Java 17
+28-06-26 21:58:15.123 main                 DEBUG c.c.o.s.CountryService         23 getAllCountries
+28-06-26 21:58:15.456 main                 TRACE org.hibernate.SQL            144 select country0_.co_code as co_code1_0_, country0_.co_name as co_name2_0_ from country country0_
+28-06-26 21:58:15.789 main                 DEBUG c.c.o.OrmLearnApplication      32 countries=[Country [code=IN, name=India], Country [code=US, name=United States of America]]
+```
+
