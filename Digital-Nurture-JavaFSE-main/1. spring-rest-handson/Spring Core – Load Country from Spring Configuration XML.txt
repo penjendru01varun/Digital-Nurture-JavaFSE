@@ -1,0 +1,238 @@
+ What is Spring Configuration XML?
+Spring Configuration XML is a file that defines beans and their dependencies. Spring IoC container reads this file and creates objects (beans) at runtime.
+
+ Key XML Elements and Attributes
+
+| Element/Attribute | Description |
+|-------------------|-------------|
+| `<beans>` | Root element containing all bean definitions |
+| `<bean>` | Defines a single bean/object to be managed by Spring |
+| `id` | Unique identifier for the bean used to retrieve it |
+| `class` | Fully qualified class name of the bean |
+| `<property>` | Sets property values using setter injection |
+| `name` | Name of the property to set |
+| `value` | Value to set for the property |
+| `<constructor-arg>` | Passes arguments to the constructor |
+| `scope` | Defines bean lifecycle (singleton, prototype) |
+
+ApplicationContext and ClassPathXmlApplicationContext
+
+- **ApplicationContext**: Spring IoC container interface that manages beans
+- **ClassPathXmlApplicationContext**: Implementation that loads XML configuration from classpath
+- **Lifecycle**:
+  1. Creates ApplicationContext
+  2. Loads and parses XML configuration
+  3. Creates bean instances
+  4. Injects dependencies
+  5. Makes beans available for retrieval
+
+
+ 1. country.xml - Spring Configuration File
+Create this file in `src/main/resources/`
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Country Bean -->
+    <bean id="country" class="com.cognizant.springlearn.Country">
+        <property name="code" value="IN" />
+        <property name="name" value="India" />
+    </bean>
+
+</beans>
+
+ 2. Country.java - Bean Class
+Create this file in `src/main/java/com/cognizant/springlearn/`
+
+
+package com.cognizant.springlearn;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Country {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Country.class);
+    private String code;
+    private String name;
+    
+    
+    public Country() {
+        LOGGER.debug("Inside Country Constructor.");
+    }
+    
+    
+    public String getCode() {
+        LOGGER.debug("Inside getCode() method. Returning code: {}", code);
+        return code;
+    }
+    
+
+    public void setCode(String code) {
+        LOGGER.debug("Inside setCode() method. Setting code to: {}", code);
+        this.code = code;
+    }
+    
+    
+    public String getName() {
+        LOGGER.debug("Inside getName() method. Returning name: {}", name);
+        return name;
+    }
+    
+    
+    public void setName(String name) {
+        LOGGER.debug("Inside setName() method. Setting name to: {}", name);
+        this.name = name;
+    }
+    
+    
+    @Override
+    public String toString() {
+        return "Country [code=" + code + ", name=" + name + "]";
+    }
+}
+
+ 3. SpringLearnApplication.java - Main Application
+Update the main application class
+
+
+package com.cognizant.springlearn;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+@SpringBootApplication
+public class SpringLearnApplication {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpringLearnApplication.class);
+    
+    public static void main(String[] args) {
+        LOGGER.info("Starting SpringLearnApplication");
+        
+        SpringApplication.run(SpringLearnApplication.class, args);
+        
+        
+        SpringLearnApplication app = new SpringLearnApplication();
+        app.displayDate();
+        app.displayCountry();
+        
+        LOGGER.info("SpringLearnApplication started successfully");
+    }
+    
+    
+    public void displayDate() {
+        LOGGER.info("START - displayDate() method");
+        
+        ApplicationContext context = new ClassPathXmlApplicationContext("date-format.xml");
+        SimpleDateFormat format = context.getBean("dateFormat", SimpleDateFormat.class);
+        
+        try {
+            Date date = format.parse("31/12/2018");
+            LOGGER.debug("Parsed date: {}", date);
+            System.out.println("Date: " + date);
+        } catch (Exception e) {
+            LOGGER.error("Error parsing date", e);
+        }
+        
+        LOGGER.info("END - displayDate() method");
+    }
+    
+    
+    public void displayCountry() {
+        LOGGER.info("START - displayCountry() method");
+        
+        
+        ApplicationContext context = new ClassPathXmlApplicationContext("country.xml");
+        
+       
+        Country country = context.getBean("country", Country.class);
+        
+        
+        LOGGER.debug("Country : {}", country.toString());
+        
+        LOGGER.info("END - displayCountry() method");
+    }
+}
+
+ 4. application.properties - Logging Configuration
+
+
+Logging Configuration
+logging.level.org.springframework=info
+logging.level.com.cognizant.springlearn=debug
+logging.pattern.console=%d{yyMMdd}|%d{HH:mm:ss.SSS}|%-20.20thread|%5p|%-25.25logger{25}|%25M|%m%n
+
+ Server Configuration (troubleshooting tip)
+server.port=8080
+
+
+ STEP-BY-STEP IMPLEMENTATION
+
+ Step 1: Create Country Class
+1. Right-click on `src/main/java/com/cognizant/springlearn`
+2. New → Class → Name: `Country`
+3. Add instance variables: `code` (String) and `name` (String)
+4. Add empty constructor with debug log
+5. Generate getters and setters with debug logs
+6. Generate toString() method
+
+ Step 2: Create country.xml
+1. Right-click on `src/main/resources`
+2. New → File → Name: `country.xml`
+3. Copy the XML configuration code
+4. Add bean tag for country
+
+ Step 3: Create displayCountry() Method
+1. Open SpringLearnApplication.java
+2. Add displayCountry() method with:
+   - START log
+   - Create ApplicationContext
+   - Get bean using getBean()
+   - Display country with debug log
+   - END log
+
+ Step 4: Invoke Method in main()
+Add this line in main():
+
+SpringLearnApplication app = new SpringLearnApplication();
+app.displayCountry();
+
+
+Step 5: Run the Application
+1. Right-click SpringLearnApplication.java
+2. Run As → Java Application
+3. Check console logs
+
+EXPECTED OUTPUT
+
+ Console Logs:
+
+2026-07-04|10:15:30.123|main                  |INFO |c.c.s.SpringLearnApplication|main|Starting SpringLearnApplication
+2026-07-04|10:15:30.456|main                  |INFO |c.c.s.SpringLearnApplication|displayCountry|START - displayCountry() method
+2026-07-04|10:15:30.789|main                  |DEBUG|c.c.s.Country               |<init>|Inside Country Constructor.
+2026-07-04|10:15:30.790|main                  |DEBUG|c.c.s.Country               |setCode|Inside setCode() method. Setting code to: IN
+2026-07-04|10:15:30.791|main                  |DEBUG|c.c.s.Country               |setName|Inside setName() method. Setting name to: India
+2026-07-04|10:15:30.792|main                  |DEBUG|c.c.s.SpringLearnApplication|displayCountry|Country : Country [code=IN, name=India]
+2026-07-04|10:15:30.793|main                  |INFO |c.c.s.SpringLearnApplication|displayCountry|END - displayCountry() method
+2026-07-04|10:15:30.800|main                  |INFO |c.c.s.SpringLearnApplication|main|SpringLearnApplication started successfully
+```
+
+Method Invocation Sequence:
+1. `displayCountry()` START
+2. `ClassPathXmlApplicationContext` created
+3. `Country` constructor called
+4. `setCode()` called
+5. `setName()` called
+6. `toString()` called for logging
+7. `displayCountry()` END
+

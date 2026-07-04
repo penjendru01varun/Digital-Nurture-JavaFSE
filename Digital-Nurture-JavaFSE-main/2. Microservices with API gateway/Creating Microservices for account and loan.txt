@@ -1,0 +1,389 @@
+ ACCOUNT MICROSERVICE
+
+ 1. pom.xml
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.0</version>
+        <relativePath/>
+    </parent>
+    
+    <groupId>com.cognizant</groupId>
+    <artifactId>account</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>account</name>
+    <description>Account Microservice</description>
+    
+    <properties>
+        <java.version>11</java.version>
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+ 2. Account Model
+
+
+package com.cognizant.account.model;
+
+public class Account {
+    private String number;
+    private String type;
+    private double balance;
+    
+    public Account() {
+    }
+    
+    public Account(String number, String type, double balance) {
+        this.number = number;
+        this.type = type;
+        this.balance = balance;
+    }
+    
+    public String getNumber() {
+        return number;
+    }
+    
+    public void setNumber(String number) {
+        this.number = number;
+    }
+    
+    public String getType() {
+        return type;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    public double getBalance() {
+        return balance;
+    }
+    
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+}
+
+ 3. Account Controller
+
+
+package com.cognizant.account.controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+import com.cognizant.account.model.Account;
+
+@RestController
+public class AccountController {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
+    
+    @GetMapping("/accounts/{number}")
+    public Account getAccountDetails(@PathVariable String number) {
+        LOGGER.info("Start: getAccountDetails() method for account number: {}", number);
+        
+        // Dummy response without backend connectivity
+        Account account = new Account("00987987973432", "savings", 234343.00);
+        
+        LOGGER.info("End: getAccountDetails() method");
+        return account;
+    }
+}
+
+ 4. Application Properties
+
+
+server.port=8080
+spring.application.name=account-service
+
+ 5. Main Application Class
+
+
+package com.cognizant.account;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class AccountApplication {
+    
+    public static void main(String[] args) {
+        SpringApplication.run(AccountApplication.class, args);
+    }
+}
+LOAN MICROSERVICE
+
+ 1. pom.xml
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.0</version>
+        <relativePath/>
+    </parent>
+    
+    <groupId>com.cognizant</groupId>
+    <artifactId>loan</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>loan</name>
+    <description>Loan Microservice</description>
+    
+    <properties>
+        <java.version>11</java.version>
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+
+ 2. Loan Model
+
+package com.cognizant.loan.model;
+
+public class Loan {
+    private String number;
+    private String type;
+    private double loan;
+    private double emi;
+    private int tenure;
+    
+    public Loan() {
+    }
+    
+    public Loan(String number, String type, double loan, double emi, int tenure) {
+        this.number = number;
+        this.type = type;
+        this.loan = loan;
+        this.emi = emi;
+        this.tenure = tenure;
+    }
+    
+    public String getNumber() {
+        return number;
+    }
+    
+    public void setNumber(String number) {
+        this.number = number;
+    }
+    
+    public String getType() {
+        return type;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    public double getLoan() {
+        return loan;
+    }
+    
+    public void setLoan(double loan) {
+        this.loan = loan;
+    }
+    
+    public double getEmi() {
+        return emi;
+    }
+    
+    public void setEmi(double emi) {
+        this.emi = emi;
+    }
+    
+    public int getTenure() {
+        return tenure;
+    }
+    
+    public void setTenure(int tenure) {
+        this.tenure = tenure;
+    }
+}
+
+ 3. Loan Controller
+
+
+package com.cognizant.loan.controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+import com.cognizant.loan.model.Loan;
+
+@RestController
+public class LoanController {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoanController.class);
+    
+    @GetMapping("/loans/{number}")
+    public Loan getLoanDetails(@PathVariable String number) {
+        LOGGER.info("Start: getLoanDetails() method for loan number: {}", number);
+        
+        // Dummy response without backend connectivity
+        Loan loan = new Loan("H00987987972342", "car", 400000, 3258, 18);
+        
+        LOGGER.info("End: getLoanDetails() method");
+        return loan;
+    }
+}
+
+ 4. Application Properties
+
+
+server.port=8081
+spring.application.name=loan-service
+
+
+ 5. Main Application Class
+
+
+package com.cognizant.loan;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class LoanApplication {
+    
+    public static void main(String[] args) {
+        SpringApplication.run(LoanApplication.class, args);
+    }
+}
+
+
+1. Test Account Microservice
+- **URL:** `http://localhost:8080/accounts/00987987973432`
+- **Sample Response:**
+
+{
+  "number": "00987987973432",
+  "type": "savings",
+  "balance": 234343.0
+}
+
+
+ 2. Test Loan Microservice
+- **URL:** `http://localhost:8081/loans/H00987987972342`
+- **Sample Response:**
+```json
+{
+  "number": "H00987987972342",
+  "type": "car",
+  "loan": 400000.0,
+  "emi": 3258.0,
+  "tenure": 18
+}
+```
+
+3. Test using curl
+
+curl -i http://localhost:8080/accounts/00987987973432
+
+# Loan Service
+curl -i http://localhost:8081/loans/H00987987972342
+```
+
+ 4. Test in Postman
+- **Account Service:**
+  - Method: GET
+  - URL: `http://localhost:8080/accounts/00987987973432`
+
+- **Loan Service:**
+  - Method: GET
+  - URL: `http://localhost:8081/loans/H00987987972342`
+
+
+ Key Concepts Demonstrated
+
+ Monolithic vs Microservices
+
+**Monolithic Approach:**
+- Single WAR/EAR file
+- All services in one application
+- Single point of failure
+- Difficult to scale individual services
+
+**Microservices Approach:**
+- Independent services running on different ports
+- Each service has its own codebase
+- Independent deployment and scaling
+- Fault isolation
+- Technology flexibility
+
+ Benefits Demonstrated:
+1. **Independence** - Account and Loan services run independently
+2. **Port Separation** - Account on 8080, Loan on 8081
+3. **Fault Isolation** - If one service fails, others continue working
+4. **Separate Development** - Can be developed by different teams
+5. **Separate Deployment** - Can be deployed independently
+

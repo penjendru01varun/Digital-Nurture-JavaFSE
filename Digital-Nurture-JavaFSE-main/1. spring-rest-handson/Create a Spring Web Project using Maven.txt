@@ -1,0 +1,205 @@
+What is Spring Boot?
+Spring Boot is a framework that makes Java development easy by:
+- Avoiding tedious development steps
+- Reducing development time
+- Avoiding writing boilerplate code
+- Providing embedded Tomcat server
+- Avoiding XML configuration
+ Spring Initializr
+Spring Initializr (https://start.spring.io) is a web-based tool that generates Spring Boot project structure with:
+- Pre-configured dependencies
+- Proper project structure
+- Maven/Gradle build file
+- Main application class with @SpringBootApplication annotation
+
+ @SpringBootApplication Annotation
+This annotation combines three annotations:
+- `@Configuration` - Marks class as source of bean definitions
+- `@EnableAutoConfiguration` - Enables Spring Boot auto-configuration
+- `@ComponentScan` - Scans for components in package
+
+SpringApplication.run()
+This method:
+- Bootstraps the Spring application
+- Creates ApplicationContext
+- Starts embedded web server
+- Performs auto-configuration
+
+Project Structure
+- `src/main/java` - Contains application source code
+- `src/main/resources` - Contains configuration files (application.properties)
+- `src/test/java` - Contains test code
+- `pom.xml` - Maven build configuration file
+
+ Logging in Spring Boot
+- Uses SLF4J with Logback as default implementation
+- Configured via application.properties
+- Log levels: TRACE, DEBUG, INFO, WARN, ERROR
+- LoggerFactory creates Logger instances
+
+
+ 1. pom.xml - Complete Maven Configuration
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <!-- Spring Boot Parent Starter -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.0</version>
+        <relativePath/>
+    </parent>
+    
+    <!-- Project Coordinates -->
+    <groupId>com.cognizant</groupId>
+    <artifactId>spring-learn</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>spring-learn</name>
+    <description>Spring Boot Learning Project</description>
+    
+    <!-- Java Version -->
+    <properties>
+        <java.version>11</java.version>
+    </properties>
+    
+    <!-- Dependencies -->
+    <dependencies>
+        <!-- Spring Web Dependency -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        
+        <!-- Spring Boot DevTools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+    
+    <!-- Build Configuration -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+
+2. SpringLearnApplication.java - Main Application Class
+
+package com.cognizant.springlearn;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringLearnApplication {
+    
+    // Logger instance
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpringLearnApplication.class);
+    
+    public static void main(String[] args) {
+        // Start log message
+        LOGGER.info("Starting SpringLearnApplication");
+        
+        // Bootstrap the application
+        SpringApplication.run(SpringLearnApplication.class, args);
+        
+        // End log message
+        LOGGER.info("SpringLearnApplication started successfully");
+    }
+}
+3. application.properties - Configuration File
+
+# Logging Configuration
+logging.level.org.springframework=info
+logging.level.com.cognizant.springlearn=debug
+logging.pattern.console=%d{yyMMdd}|%d{HH:mm:ss.SSS}|%-20.20thread|%5p|%-25.25logger{25}|%25M|%m%n
+
+
+
+### 4. Country.java - Example Bean Class
+
+package com.cognizant.springlearn;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Country {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Country.class);
+    private String code;
+    private String name;
+    
+    public Country() {
+        LOGGER.debug("Inside Country Constructor.");
+    }
+    
+    public String getCode() {
+        LOGGER.debug("Getting country code: {}", code);
+        return code;
+    }
+    
+    public void setCode(String code) {
+        LOGGER.debug("Setting country code to: {}", code);
+        this.code = code;
+    }
+    
+    public String getName() {
+        LOGGER.debug("Getting country name: {}", name);
+        return name;
+    }
+    
+    public void setName(String name) {
+        LOGGER.debug("Setting country name to: {}", name);
+        this.name = name;
+    }
+    
+    @Override
+    public String toString() {
+        return "Country [code=" + code + ", name=" + name + "]";
+    }
+}
+
+
+## STEP-BY-STEP IMPLEMENTATION GUIDE
+
+### Step 1: Create Project using Spring Initializr
+1. Go to https://start.spring.io/
+2. Change Group to `com.cognizant`
+3. Change Artifact Id to `spring-learn`
+4. Select Spring Boot DevTools and Spring Web
+5. Create and download the project as ZIP
+6. Extract the ZIP in root folder to Eclipse Workspace
+
+### Step 2: Build the Project
+```bash
+mvn clean package -Dhttp.proxyHost=proxy.cognizant.com -Dhttp.proxyPort=6050 -Dhttps.proxyHost=proxy.cognizant.com -Dhttps.proxyPort=6050 -Dhttp.proxyUser=123456
+```
+
+### Step 3: Import in Eclipse
+1. Eclipse > File > Import
+2. Maven > Existing Maven Projects
+3. Click Browse and select extracted folder
+4. Click Finish
+
+### Step 4: Run the Application
+1. Right-click SpringLearnApplication.java
+2. Run As > Java Application
+3. Check console output for logs
+
+---
+
