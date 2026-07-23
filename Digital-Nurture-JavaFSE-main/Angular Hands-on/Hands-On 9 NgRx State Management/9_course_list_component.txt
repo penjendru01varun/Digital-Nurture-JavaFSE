@@ -1,0 +1,76 @@
+// FILE: src/app/pages/course-list/course-list.component.ts
+
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { CourseCardComponent } from '../../components/course-card/course-card.component';
+import { Course } from '../../models/course.model';
+import * as CourseActions from '../../store/course/course.actions';
+import * as CourseSelectors from '../../store/course/course.selectors';
+
+@Component({
+  selector: 'app-course-list',
+  standalone: true,
+  imports: [CommonModule, CourseCardComponent],
+  templateUrl: './course-list.component.html',
+  styleUrls: ['./course-list.component.css']
+})
+export class CourseListComponent implements OnInit {
+  // Task 96: Select courses from store
+  courses$: Observable<Course[]>;
+  loading$: Observable<boolean>;
+  error$: Observable<string | null>;
+
+  constructor(
+    private store: Store,
+    private router: Router
+  ) {
+    // Task 96: Use selectors to get data from store
+    this.courses$ = this.store.select(CourseSelectors.selectAllCourses);
+    this.loading$ = this.store.select(CourseSelectors.selectCoursesLoading);
+    this.error$ = this.store.select(CourseSelectors.selectCoursesError);
+  }
+
+  ngOnInit(): void {
+    // Task 96: Dispatch action to load courses
+    this.store.dispatch(CourseActions.loadCourses());
+  }
+
+  onCourseClick(courseId: number): void {
+    this.router.navigate(['/courses', courseId]);
+  }
+
+  trackByCourseId(index: number, course: Course): number {
+    return course.id;
+  }
+}
+
+<!-- FILE: src/app/pages/course-list/course-list.component.html -->
+
+<div class="course-list">
+  <h2>Available Courses</h2>
+  
+  <!-- Task 96: Async pipe for Observables -->
+  <div *ngIf="loading$ | async" class="loading">
+    Loading courses...
+  </div>
+  
+  <div *ngIf="error$ | async as error" class="error-message">
+    {{ error }}
+  </div>
+  
+  <div *ngIf="!(loading$ | async) && !(error$ | async)" class="course-grid">
+    <div 
+      *ngFor="let course of courses$ | async; trackBy: trackByCourseId" 
+      class="course-card-wrapper"
+      (click)="onCourseClick(course.id)">
+      <app-course-card [course]="course"></app-course-card>
+    </div>
+    
+    <div *ngIf="(courses$ | async)?.length === 0" class="no-courses">
+      No courses available.
+    </div>
+  </div>
+</div>

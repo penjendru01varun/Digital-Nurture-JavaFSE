@@ -1,0 +1,30 @@
+// FILE: src/app/pages/courses-layout/courses-layout.component.ts
+
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-courses-layout',
+  standalone: true,
+  imports: [CommonModule, RouterOutlet],
+  templateUrl: './courses-layout.component.html',
+  styleUrls: ['./courses-layout.component.css']
+})
+export class CoursesLayoutComponent {
+  // This component serves as a container for nested routes under /courses
+  // Task 72: Contains <router-outlet> for child routes
+}
+
+<!-- FILE: src/app/pages/courses-layout/courses-layout.component.html -->
+
+<div class="courses-layout">
+  <div class="courses-header">
+    <h1>Course Management</h1>
+    <p>Browse available courses and view details</p>
+  </div>
+  
+  <!-- Task 72: Router outlet for nested routes -->
+  <router-outlet></router-outlet>
+</div>
+

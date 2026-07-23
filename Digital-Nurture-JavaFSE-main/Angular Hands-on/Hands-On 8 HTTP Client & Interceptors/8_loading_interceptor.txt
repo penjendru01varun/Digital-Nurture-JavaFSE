@@ -1,0 +1,21 @@
+// FILE: src/app/interceptors/loading.interceptor.ts
+
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { finalize } from 'rxjs/operators';
+import { LoadingService } from '../services/loading.service';
+
+// Task 91: Loading interceptor
+export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
+  const loadingService = inject(LoadingService);
+  
+  // Task 91: Show loader before request
+  loadingService.showLoader();
+  
+  return next(req).pipe(
+    // Task 91: Hide loader when request completes (success or error)
+    finalize(() => {
+      loadingService.hideLoader();
+    })
+  );
+};

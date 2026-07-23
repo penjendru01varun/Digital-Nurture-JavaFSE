@@ -1,0 +1,115 @@
+// FILE: src/app/pages/course-list/course-list.component.spec.ts
+
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { CourseListComponent } from './course-list.component';
+import { Course } from '../../models/course.model';
+import { selectAllCourses, selectCoursesLoading } from '../../store/course/course.selectors';
+
+describe('CourseListComponent', () => {
+  let component: CourseListComponent;
+  let fixture: ComponentFixture<CourseListComponent>;
+  let store: MockStore;
+  
+  const mockCourses: Course[] = [
+    { id: 1, name: 'Data Structures', code: 'CS101', credits: 3, gradeStatus: 'passed' },
+    { id: 2, name: 'Algorithms', code: 'CS201', credits: 4, gradeStatus: 'pending' }
+  ];
+
+  // Task 109: Configure TestBed with MockStore
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [CourseListComponent],
+      providers: [
+        provideMockStore({
+          initialState: {
+            course: {
+              courses: mockCourses,
+              loading: false,
+              error: null
+            }
+          }
+        })
+      ]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(CourseListComponent);
+    component = fixture.componentInstance;
+    store = TestBed.inject(MockStore);
+    
+    // Set up selectors
+    store.overrideSelector(selectAllCourses, mockCourses);
+    store.overrideSelector(selectCoursesLoading, false);
+    
+    fixture.detectChanges();
+  });
+
+  // Test component creation
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
+
+  // Task 109: Test that component renders courses
+  it('should render course cards when courses are available', () => {
+    const courseCards = fixture.debugElement.queryAll(By.css('app-course-card'));
+    expect(courseCards.length).toBe(2);
+  });
+
+  // Task 110: Test loading state
+  it('should show loading indicator when loading is true', () => {
+    // Override selector to simulate loading state
+    store.overrideSelector(selectCoursesLoading, true);
+    store.refreshState();
+    fixture.detectChanges();
+
+    const loadingElement = fixture.debugElement.query(By.css('.loading'));
+    expect(loadingElement).toBeTruthy();
+    expect(loadingElement.nativeElement.textContent).toContain('Loading courses...');
+  });
+
+  // Test that loading indicator is hidden when not loading
+  it('should hide loading indicator when not loading', () => {
+    store.overrideSelector(selectCoursesLoading, false);
+    store.refreshState();
+    fixture.detectChanges();
+
+    const loadingElement = fixture.debugElement.query(By.css('.loading'));
+    expect(loadingElement).toBeFalsy();
+  });
+
+  // Test empty state
+  it('should show "No courses available" when courses list is empty', () => {
+    store.overrideSelector(selectAllCourses, []);
+    store.refreshState();
+    fixture.detectChanges();
+
+    const noCourses = fixture.debugElement.query(By.css('.no-courses'));
+    expect(noCourses).toBeTruthy();
+    expect(noCourses.nativeElement.textContent).toContain('No courses available.');
+  });
+
+  // Test error state
+  it('should show error message when error is present', () => {
+    const errorState = {
+      courses: [],
+      loading: false,
+      error: 'Failed to load courses'
+    };
+    
+    // Recreate component with error state
+    const newFixture = TestBed.createComponent(CourseListComponent);
+    const newComponent = newFixture.componentInstance;
+    newFixture.detectChanges();
+
+    const errorElement = newFixture.debugElement.query(By.css('.error-message'));
+    expect(errorElement).toBeTruthy();
+  });
+
+  // Test trackBy function
+  it('should track courses by ID', () => {
+    const course = { id: 1, name: 'Test', code: 'CS999', credits: 3, gradeStatus: 'pending' };
+    const result = component.trackByCourseId(0, course);
+    expect(result).toBe(1);
+  });
+});

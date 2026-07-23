@@ -1,0 +1,23 @@
+// FILE: src/app/features/enrollment/enrollment.module.ts
+
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EnrollmentRoutingModule } from './enrollment-routing.module';
+import { EnrollmentFormComponent } from '../../pages/enrollment-form/enrollment-form.component';
+import { ReactiveEnrollmentFormComponent } from '../../pages/reactive-enrollment-form/reactive-enrollment-form.component';
+
+@NgModule({
+  declarations: [
+    // Move these components to the module
+    EnrollmentFormComponent,
+    ReactiveEnrollmentFormComponent
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    EnrollmentRoutingModule
+  ]
+})
+export class EnrollmentModule { }

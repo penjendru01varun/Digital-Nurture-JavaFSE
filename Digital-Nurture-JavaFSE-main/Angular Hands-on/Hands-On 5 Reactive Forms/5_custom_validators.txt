@@ -1,0 +1,45 @@
+ts
+// FILE: src/app/validators/custom-validators.ts
+
+import { AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
+
+// Task 53: Custom synchronous validator
+export function noCourseCode(control: AbstractControl): ValidationErrors | null {
+  const value = control.value;
+  if (value && value.toString().startsWith('XX')) {
+    return { noCourseCode: true };
+  }
+  return null;
+}
+
+// Task 55: Custom async validator (Promise-based)
+export function simulateEmailCheck(control: AbstractControl): Promise<ValidationErrors | null> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      // If email contains 'test@', treat as taken
+      if (control.value && control.value.includes('test@')) {
+        resolve({ emailTaken: true });
+      } else {
+        resolve(null);
+      }
+    }, 800);
+  });
+}
+
+// Task 55: Alternative: Async validator (Observable-based)
+export function simulateEmailCheckObservable(): AsyncValidatorFn {
+  return (control: AbstractControl): Observable<ValidationErrors | null> => {
+    return of(control.value).pipe(
+      delay(800),
+      map(value => {
+        if (value && value.includes('test@')) {
+          return { emailTaken: true };
+        }
+        return null;
+      })
+    );
+  };
+}
+

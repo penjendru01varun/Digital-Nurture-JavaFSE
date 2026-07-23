@@ -1,0 +1,58 @@
+// FILE: src/app/store/enrollment/enrollment.reducer.ts
+
+import { createReducer, on } from '@ngrx/store';
+import * as EnrollmentActions from './enrollment.actions';
+
+// Task 99: Define enrollment state interface
+export interface EnrollmentState {
+  enrolledCourseIds: number[];
+  loading: boolean;
+  error: string | null;
+}
+
+export const initialState: EnrollmentState = {
+  enrolledCourseIds: [],
+  loading: false,
+  error: null
+};
+
+// Task 99: Create enrollment reducer
+export const enrollmentReducer = createReducer(
+  initialState,
+  
+  on(EnrollmentActions.enrollInCourse, (state, { courseId }) => ({
+    ...state,
+    enrolledCourseIds: state.enrolledCourseIds.includes(courseId)
+      ? state.enrolledCourseIds
+      : [...state.enrolledCourseIds, courseId]
+  })),
+  
+  on(EnrollmentActions.unenrollFromCourse, (state, { courseId }) => ({
+    ...state,
+    enrolledCourseIds: state.enrolledCourseIds.filter(id => id !== courseId)
+  })),
+  
+  on(EnrollmentActions.setEnrolledCourses, (state, { enrolledCourseIds }) => ({
+    ...state,
+    enrolledCourseIds
+  })),
+  
+  on(EnrollmentActions.loadEnrolledCourses, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  
+  on(EnrollmentActions.loadEnrolledCoursesSuccess, (state, { enrolledCourseIds }) => ({
+    ...state,
+    enrolledCourseIds,
+    loading: false,
+    error: null
+  })),
+  
+  on(EnrollmentActions.loadEnrolledCoursesFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  }))
+);

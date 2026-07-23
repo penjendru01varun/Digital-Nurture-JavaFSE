@@ -1,0 +1,80 @@
+// FILE: src/app/services/course.service.ts
+
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, tap, retry } from 'rxjs/operators';
+import { Course } from '../models/course.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CourseService {
+  private apiUrl = 'http://localhost:3000/courses';
+
+  // Task 78: Inject HttpClient
+  constructor(private http: HttpClient) {}
+
+  // Task 79: GET all courses with operators
+  getCourses(): Observable<Course[]> {
+    return this.http.get<Course[]>(this.apiUrl).pipe(
+      // Task 83: Map operator to transform response
+      map(courses => courses.filter(c => c.credits > 0)),
+      // Task 85: Tap operator for side effects (logging)
+      tap(courses => console.log('Courses loaded:', courses.length)),
+      // Task 86: Retry strategy
+      retry(2),
+      // Task 84: Error handling with catchError
+      catchError(this.handleError)
+    );
+  }
+
+  // Task 79: GET course by ID
+  getCourseById(id: number): Observable<Course> {
+    return this.http.get<Course>(`${this.apiUrl}/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // Task 81: POST - Create new course
+  createCourse(course: Omit<Course, 'id'>): Observable<Course> {
+    return this.http.post<Course>(this.apiUrl, course).pipe(
+      tap(newCourse => console.log('Course created:', newCourse)),
+      catchError(this.handleError)
+    );
+  }
+
+  // Task 82: PUT - Update course
+  updateCourse(id: number, course: Partial<Course>): Observable<Course> {
+    return this.http.put<Course>(`${this.apiUrl}/${id}`, course).pipe(
+      tap(updated => console.log('Course updated:', updated)),
+      catchError(this.handleError)
+    );
+  }
+
+  // Task 82: DELETE - Remove course
+  deleteCourse(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      tap(() => console.log('Course deleted:', id)),
+      catchError(this.handleError)
+    );
+  }
+
+  // Task 84: Error handler method
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'An error occurred while processing your request.';
+    
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      errorMessage = `Client Error: ${error.error.message}`;
+      console.error('Client error:', error.error);
+    } else {
+      // Server-side error
+      errorMessage = `Server Error: ${error.status} - ${error.message}`;
+      console.error('Server error:', error);
+    }
+    
+    // Return user-friendly error message
+    return throwError(() => new Error('Failed to load courses. Please try again.'));
+  }
+}

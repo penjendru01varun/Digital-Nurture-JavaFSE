@@ -1,0 +1,66 @@
+// FILE: src/app/components/course-card/course-card.component.ts
+
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { Course } from '../../models/course.model';
+import * as EnrollmentActions from '../../store/enrollment/enrollment.actions';
+import * as EnrollmentSelectors from '../../store/enrollment/enrollment.selectors';
+
+@Component({
+  selector: 'app-course-card',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './course-card.component.html',
+  styleUrls: ['./course-card.component.css']
+})
+export class CourseCardComponent implements OnChanges {
+  @Input() course!: Course;
+  
+  isEnrolled$: Observable<boolean>;
+  isEnrolled = false;
+
+  constructor(private store: Store) {
+    // Initialize with false, will be updated in ngOnChanges
+    this.isEnrolled$ = this.store.select(EnrollmentSelectors.selectIsCourseEnrolled(0));
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['course'] && this.course) {
+      // Update the observable with the current course ID
+      this.isEnrolled$ = this.store.select(
+        EnrollmentSelectors.selectIsCourseEnrolled(this.course.id)
+      );
+      
+      // Subscribe to get current value for toggle button
+      this.isEnrolled$.subscribe(enrolled => {
+        this.isEnrolled = enrolled;
+      });
+    }
+  }
+
+  // Task 100: Dispatch enrollment actions
+  onEnrollToggle(): void {
+    if (this.isEnrolled) {
+      this.store.dispatch(EnrollmentActions.unenrollFromCourse({ 
+        courseId: this.course.id 
+      }));
+    } else {
+      this.store.dispatch(EnrollmentActions.enrollInCourse({ 
+        courseId: this.course.id 
+      }));
+    }
+  }
+
+  getBorderColor(): string {
+    switch (this.course.gradeStatus) {
+      case 'passed':
+        return '#28a745';
+      case 'failed':
+        return '#dc3545';
+      default:
+        return '#6c757d';
+    }
+  }
+}

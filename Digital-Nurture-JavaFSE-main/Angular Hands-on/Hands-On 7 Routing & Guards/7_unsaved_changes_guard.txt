@@ -1,0 +1,22 @@
+// FILE: src/app/guards/unsaved-changes.guard.ts
+
+import { Injectable } from '@angular/core';
+import { CanDeactivate } from '@angular/router';
+import { ReactiveEnrollmentFormComponent } from '../pages/reactive-enrollment-form/reactive-enrollment-form.component';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UnsavedChangesGuard implements CanDeactivate<ReactiveEnrollmentFormComponent> {
+  
+  // Task 77: Implement canDeactivate
+  canDeactivate(component: ReactiveEnrollmentFormComponent): boolean {
+    // Check if form is dirty (has unsaved changes)
+    if (component.enrollForm && component.enrollForm.dirty) {
+      // Task 77: Show confirmation dialog
+      return window.confirm('You have unsaved changes. Are you sure you want to leave?');
+    }
+    // Allow navigation if form is clean
+    return true;
+  }
+}

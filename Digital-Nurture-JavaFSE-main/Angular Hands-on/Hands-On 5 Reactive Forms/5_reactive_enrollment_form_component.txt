@@ -1,0 +1,393 @@
+// FILE: src/app/pages/reactive-enrollment-form/reactive-enrollment-form.component.ts
+
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators, AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import { map, delay } from 'rxjs/operators';
+
+@Component({
+  selector: 'app-reactive-enrollment-form',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './reactive-enrollment-form.component.html',
+  styleUrls: ['./reactive-enrollment-form.component.css']
+})
+export class ReactiveEnrollmentFormComponent implements OnInit {
+  enrollForm!: FormGroup;
+  submitted = false;
+
+  // Task 49: Inject FormBuilder
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    // Task 49: Build form with FormBuilder
+    this.enrollForm = this.fb.group({
+      studentName: ['', [Validators.required, Validators.minLength(3)]],
+      studentEmail: ['', [Validators.required, Validators.email], [this.simulateEmailCheck.bind(this)]],
+      courseId: [null, [Validators.required, this.noCourseCode]],
+      preferredSemester: ['Odd', Validators.required],
+      agreeToTerms: [false, Validators.requiredTrue],
+      // Task 56: FormArray for additional courses
+      additionalCourses: this.fb.array([])
+    });
+  }
+
+  // Task 57: Typed getter for FormArray
+  get additionalCourses(): FormArray {
+    return this.enrollForm.get('additionalCourses') as FormArray;
+    // COMMENT: This getter is better than casting in the template because:
+    // 1. It provides type safety in TypeScript
+    // 2. It keeps the template clean and readable
+    // 3. It centralizes the casting logic in one place
+    // 4. It makes the code more maintainable if the form structure changes
+  }
+
+  // Task 53: Custom synchronous validator
+  noCourseCode(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (value && value.toString().startsWith('XX')) {
+      return { noCourseCode: true };
+    }
+    return null;
+  }
+
+  // Task 55: Custom async validator
+  simulateEmailCheck(control: AbstractControl): Promise<ValidationErrors | null> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // If email contains 'test@', treat as taken
+        if (control.value && control.value.includes('test@')) {
+          resolve({ emailTaken: true });
+        } else {
+          resolve(null);
+        }
+      }, 800);
+    });
+  }
+
+  // Task 56: Add additional course
+  addCourse(): void {
+    this.additionalCourses.push(this.fb.control('', Validators.required));
+  }
+
+  // Task 56: Remove additional course
+  removeCourse(index: number): void {
+    this.additionalCourses.removeAt(index);
+  }
+
+  // Task 51: Submit handler
+  onSubmit(): void {
+    if (this.enrollForm.valid) {
+      console.log('Form Value (excluding disabled):', this.enrollForm.value);
+      console.log('Form Value (including disabled):', this.enrollForm.getRawValue());
+      this.submitted = true;
+      
+      // Log additional courses
+      console.log('Additional Courses:', this.additionalCourses.value);
+    }
+  }
+
+  // Task 52: Code comment explaining difference
+  /*
+    COMMENT: Difference between enrollForm.value and enrollForm.getRawValue():
+    
+    enrollForm.value:
+    - Returns only the values of enabled controls
+    - Excludes disabled controls from the result
+    - Use when you want to submit only active/editable form data
+    
+    enrollForm.getRawValue():
+    - Returns values of ALL controls including disabled ones
+    - Includes all controls regardless of their enabled state
+    - Use when you need the complete form data including disabled fields
+    - Useful for viewing full form state or when submitting all data to an API
+  */
+}
+
+html
+
+<!-- FILE: src/app/pages/reactive-enrollment-form/reactive-enrollment-form.component.html -->
+
+<div class="reactive-form">
+  <h2>Reactive Enrollment Form</h2>
+  
+  <div *ngIf="submitted" class="success-message">
+    Enrollment request submitted successfully!
+  </div>
+  
+  <!-- Task 50: Bind form with formGroup -->
+  <form [formGroup]="enrollForm" (ngSubmit)="onSubmit()">
+    
+    <!-- Student Name -->
+    <div class="form-group">
+      <label for="studentName">Student Name:</label>
+      <input 
+        type="text" 
+        id="studentName"
+        formControlName="studentName"
+        placeholder="Enter your full name"
+        class="form-control">
+      
+      <div *ngIf="enrollForm.get('studentName')?.touched">
+        <span *ngIf="enrollForm.get('studentName')?.errors?.['required']" class="error">
+          Name is required
+        </span>
+        <span *ngIf="enrollForm.get('studentName')?.errors?.['minlength']" class="error">
+          Name must be at least 3 characters
+        </span>
+      </div>
+    </div>
+    
+    <!-- Student Email with async validator -->
+    <div class="form-group">
+      <label for="studentEmail">Student Email:</label>
+      <input 
+        type="email" 
+        id="studentEmail"
+        formControlName="studentEmail"
+        placeholder="Enter your email"
+        class="form-control">
+      
+      <div *ngIf="enrollForm.get('studentEmail')?.touched">
+        <span *ngIf="enrollForm.get('studentEmail')?.errors?.['required']" class="error">
+          Email is required
+        </span>
+        <span *ngIf="enrollForm.get('studentEmail')?.errors?.['email']" class="error">
+          Please enter a valid email address
+        </span>
+        <!-- Task 55: Async validator error -->
+        <span *ngIf="enrollForm.get('studentEmail')?.errors?.['emailTaken']" class="error">
+          Email is already taken
+        </span>
+        <span *ngIf="enrollForm.get('studentEmail')?.pending" class="info">
+          Checking email availability...
+        </span>
+      </div>
+    </div>
+    
+    <!-- Course ID with custom validator -->
+    <div class="form-group">
+      <label for="courseId">Course ID:</label>
+      <input 
+        type="text" 
+        id="courseId"
+        formControlName="courseId"
+        placeholder="Enter course ID"
+        class="form-control">
+      
+      <div *ngIf="enrollForm.get('courseId')?.touched">
+        <span *ngIf="enrollForm.get('courseId')?.errors?.['required']" class="error">
+          Course ID is required
+        </span>
+        <!-- Task 54: Custom validator error -->
+        <span *ngIf="enrollForm.get('courseId')?.errors?.['noCourseCode']" class="error">
+          Course code starting with XX is not allowed
+        </span>
+      </div>
+    </div>
+    
+    <!-- Preferred Semester -->
+    <div class="form-group">
+      <label for="preferredSemester">Preferred Semester:</label>
+      <select 
+        id="preferredSemester"
+        formControlName="preferredSemester"
+        class="form-control">
+        <option value="Odd">Odd</option>
+        <option value="Even">Even</option>
+      </select>
+    </div>
+    
+    <!-- Agree to Terms -->
+    <div class="form-group checkbox">
+      <label>
+        <input type="checkbox" formControlName="agreeToTerms">
+        I agree to the terms and conditions
+      </label>
+      
+      <div *ngIf="enrollForm.get('agreeToTerms')?.touched && enrollForm.get('agreeToTerms')?.errors?.['requiredTrue']" class="error">
+        You must agree to the terms
+      </div>
+    </div>
+    
+    <!-- Task 56: FormArray for additional courses -->
+    <div class="form-group">
+      <label>Additional Courses:</label>
+      <div *ngFor="let ctrl of additionalCourses.controls; let i = index" class="additional-course">
+        <input 
+          [formControl]="ctrl" 
+          placeholder="Enter course ID"
+          class="form-control">
+        <button type="button" (click)="removeCourse(i)" class="btn-remove">Remove</button>
+      </div>
+      <button type="button" (click)="addCourse()" class="btn-add">Add Another Course</button>
+    </div>
+    
+    <!-- Task 51: Submit button -->
+    <div class="form-actions">
+      <button type="submit" [disabled]="enrollForm.invalid" class="btn-submit">
+        Submit
+      </button>
+      <button type="button" (click)="enrollForm.reset()" class="btn-reset">
+        Reset
+      </button>
+    </div>
+  </form>
+</div>
+
+
+css
+
+/* FILE: src/app/pages/reactive-enrollment-form/reactive-enrollment-form.component.css */
+
+.reactive-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h2 {
+  color: #333;
+  border-bottom: 2px solid #28a745;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-control.ng-invalid.ng-touched {
+  border-color: red;
+  border-width: 2px;
+}
+
+.form-control.ng-valid.ng-touched {
+  border-color: green;
+  border-width: 2px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+  display: block;
+}
+
+.info {
+  color: #17a2b8;
+  font-size: 14px;
+  margin-top: 5px;
+  display: block;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 15px;
+  border: 1px solid #c3e6cb;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.additional-course {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.additional-course .form-control {
+  flex: 1;
+}
+
+.btn-remove {
+  padding: 8px 12px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-remove:hover {
+  background-color: #c82333;
+}
+
+.btn-add {
+  padding: 8px 16px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-add:hover {
+  background-color: #218838;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-submit {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn-submit:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.btn-reset {
+  padding: 10px 20px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-reset:hover {
+  background-color: #5a6268;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: normal;
+}
+

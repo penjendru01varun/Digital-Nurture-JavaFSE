@@ -1,0 +1,110 @@
+// FILE: src/app/pages/home/home.component.ts
+
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent implements OnInit, OnDestroy {
+  // Task 11: String interpolation property
+  portalName = 'Student Course Portal';
+  
+  // Task 12: Property binding property
+  isPortalActive = true;
+  
+  // Task 13: Event binding property
+  message = '';
+  
+  // Task 14: Two-way binding property
+  searchTerm = '';
+  
+  // Task 16: Lifecycle hook - ngOnInit
+  ngOnInit(): void {
+    // Simulating fetch of course count
+    console.log('HomeComponent initialised — courses loaded');
+  }
+  
+  // Task 13: Event binding method
+  onEnrollClick(): void {
+    this.message = 'Enrollment opened!';
+  }
+  
+  // Task 17: Lifecycle hook - ngOnDestroy
+  ngOnDestroy(): void {
+    console.log('HomeComponent destroyed');
+  }
+}
+
+css
+<!-- FILE: src/app/pages/home/home.component.html -->
+
+<!-- Task 11: String interpolation -->
+<h1>{{ portalName }}</h1>
+
+<!-- Task 8: Description paragraph -->
+<p>Welcome to the Student Course Portal. Manage your courses, track your progress, and enroll in new courses.</p>
+
+<!-- Task 8: Stats row with hardcoded values -->
+<div class="stats">
+  <span>Courses Available: 12</span>
+  <span>Enrolled: 3</span>
+  <span>GPA: 3.8</span>
+</div>
+
+<!-- Task 12: Property binding -->
+<button [disabled]="!isPortalActive" (click)="onEnrollClick()">Enroll Now</button>
+
+<!-- Task 13: Event binding - displays message -->
+<p *ngIf="message">{{ message }}</p>
+
+<!-- Task 14: Two-way binding with ngModel -->
+<input [(ngModel)]="searchTerm" placeholder="Search courses...">
+<p>Searching for: {{ searchTerm }}</p>
+
+<!-- Task 15: Code comment explaining the difference -->
+<!-- 
+  [property] = One-way binding: Data flows from component → DOM
+  Example: [disabled]="!isPortalActive" binds the component property to the DOM element's disabled attribute
+  
+  [(ngModel)] = Two-way binding: Data flows DOM ↔ component (bidirectional)
+  Example: [(ngModel)]="searchTerm" - any change in input updates component property,
+  and any change in component property updates the input value
+  It's shorthand for: [ngModel]="searchTerm" (ngModelChange)="searchTerm = $event"
+-->
+
+/* FILE: src/app/pages/home/home.component.css */
+
+.stats {
+  display: flex;
+  gap: 20px;
+  padding: 10px 0;
+  font-weight: bold;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+input {
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}

@@ -1,0 +1,101 @@
+// FILE: src/app/components/course-card/course-card.component.spec.ts
+
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { CourseCardComponent } from './course-card.component';
+import { Course } from '../../models/course.model';
+
+describe('CourseCardComponent', () => {
+  let component: CourseCardComponent;
+  let fixture: ComponentFixture<CourseCardComponent>;
+  
+  // Mock course data
+  const mockCourse: Course = {
+    id: 1,
+    name: 'Data Structures',
+    code: 'CS101',
+    credits: 4,
+    gradeStatus: 'passed'
+  };
+
+  // Task 101: Configure TestBed
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [CourseCardComponent]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(CourseCardComponent);
+    component = fixture.componentInstance;
+    
+    // Set required input
+    component.course = mockCourse;
+    fixture.detectChanges();
+  });
+
+  // Task 102: Test component creation
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
+
+  // Task 103: Test @Input rendering
+  it('should display course name', () => {
+    const h3Element = fixture.debugElement.query(By.css('h3'));
+    expect(h3Element.nativeElement.textContent).toContain('Data Structures');
+  });
+
+  it('should display course code', () => {
+    const codeElement = fixture.debugElement.query(By.css('p strong'));
+    expect(codeElement.nativeElement.textContent).toContain('Code:');
+  });
+
+  // Task 104: Test @Output event
+  it('should emit enrollRequested when Enroll button is clicked', () => {
+    spyOn(component.enrollRequested, 'emit');
+    
+    const button = fixture.debugElement.query(By.css('button'));
+    button.nativeElement.click();
+    
+    expect(component.enrollRequested.emit).toHaveBeenCalledWith(1);
+  });
+
+  // Task 105: Test ngOnChanges
+  it('should log course changes in ngOnChanges', () => {
+    const consoleSpy = spyOn(console, 'log');
+    
+    const newCourse: Course = {
+      id: 2,
+      name: 'Algorithms',
+      code: 'CS201',
+      credits: 4,
+      gradeStatus: 'pending'
+    };
+    
+    component.course = newCourse;
+    component.ngOnChanges({
+      course: {
+        previousValue: mockCourse,
+        currentValue: newCourse,
+        firstChange: false,
+        isFirstChange: () => false
+      }
+    });
+    
+    expect(consoleSpy).toHaveBeenCalled();
+  });
+
+  // Test border color based on grade status
+  it('should return green border for passed status', () => {
+    component.course = { ...mockCourse, gradeStatus: 'passed' };
+    expect(component.getBorderColor()).toBe('#28a745');
+  });
+
+  it('should return red border for failed status', () => {
+    component.course = { ...mockCourse, gradeStatus: 'failed' };
+    expect(component.getBorderColor()).toBe('#dc3545');
+  });
+
+  it('should return grey border for pending status', () => {
+    component.course = { ...mockCourse, gradeStatus: 'pending' };
+    expect(component.getBorderColor()).toBe('#6c757d');
+  });
+});
