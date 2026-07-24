@@ -1,0 +1,83 @@
+PS D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-08-Spring-Data-JPA-Hibernate\Exercise-09> mvn spring-boot:run                    
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------< com.ems:employee-management-system >-----------------
+[INFO] Building employee-management-system 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.2.0:run (default-cli) > test-compile @ employee-management-system >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ employee-management-system ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ employee-management-system ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ employee-management-system ---
+[INFO] skip non existing resourceDirectory D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-08-Spring-Data-JPA-Hibernate\Exercise-09\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ employee-management-system ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] <<< spring-boot:3.2.0:run (default-cli) < test-compile @ employee-management-system <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.2.0:run (default-cli) @ employee-management-system ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2026-07-08T11:53:52.227+05:30  INFO 2736 --- [           main] c.e.EmployeeManagementSystemApplication  : Starting EmployeeManagementSystemApplication using Java 17.0.12 with PID 2736 (D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-08-Spring-Data-JPA-Hibernate\Exercise-09\target\classes started by USER in D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-08-Spring-Data-JPA-Hibernate\Exercise-09)
+2026-07-08T11:53:52.238+05:30 DEBUG 2736 --- [           main] c.e.EmployeeManagementSystemApplication  : Running with Spring Boot v3.2.0, Spring v6.1.1
+2026-07-08T11:53:52.243+05:30  INFO 2736 --- [           main] c.e.EmployeeManagementSystemApplication  : No active profile set, falling back to 1 default profile: "default"
+2026-07-08T11:53:52.952+05:30  INFO 2736 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-08T11:53:53.007+05:30  INFO 2736 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 48 ms. Found 2 JPA repository interfaces.
+2026-07-08T11:53:53.009+05:30  INFO 2736 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-08T11:53:53.016+05:30  INFO 2736 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 7 ms. Found 1 JPA repository interface.
+2026-07-08T11:53:53.764+05:30  INFO 2736 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-07-08T11:53:53.776+05:30  INFO 2736 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-07-08T11:53:53.777+05:30  INFO 2736 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-07-08T11:53:53.856+05:30  INFO 2736 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-07-08T11:53:53.858+05:30  INFO 2736 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1395 ms
+2026-07-08T11:53:53.988+05:30  INFO 2736 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: primary]
+2026-07-08T11:53:54.059+05:30  INFO 2736 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-07-08T11:53:54.107+05:30  INFO 2736 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-07-08T11:53:54.370+05:30  INFO 2736 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-08T11:53:54.400+05:30  INFO 2736 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-08T11:53:54.612+05:30  INFO 2736 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-07-08T11:53:54.627+05:30  INFO 2736 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-08T11:53:55.480+05:30  INFO 2736 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-08T11:53:55.483+05:30  INFO 2736 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'primary'
+2026-07-08T11:53:55.492+05:30  INFO 2736 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: secondary]
+2026-07-08T11:53:55.495+05:30  INFO 2736 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled       
+2026-07-08T11:53:55.528+05:30  INFO 2736 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-08T11:53:55.529+05:30  INFO 2736 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-07-08T11:53:55.534+05:30  INFO 2736 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn10: url=jdbc:h2:mem:testdb_secondary user=SA
+2026-07-08T11:53:55.534+05:30  INFO 2736 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-07-08T11:53:55.595+05:30  INFO 2736 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-08T11:53:55.596+05:30  INFO 2736 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'secondary'
+2026-07-08T11:53:56.038+05:30  WARN 2736 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-08T11:53:56.382+05:30  INFO 2736 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-07-08T11:53:56.391+05:30  INFO 2736 --- [           main] c.e.EmployeeManagementSystemApplication  : Started EmployeeManagementSystemApplication in 4.773 seconds (process running for 5.565)
+2026-07-08T11:54:07.470+05:30  INFO 2736 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'secondary'
+2026-07-08T11:54:07.472+05:30  INFO 2736 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2026-07-08T11:54:07.474+05:30  INFO 2736 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2026-07-08T11:54:07.474+05:30  INFO 2736 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'primary'
+2026-07-08T11:54:07.475+05:30  INFO 2736 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-07-08T11:54:07.476+05:30  INFO 2736 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  20.652 s
+[INFO] Finished at: 2026-07-08T11:54:07+05:30
+[INFO] ------------------------------------------------------------------------
+Terminate batch job (Y/N)? y
+PS D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-08-Spring-Data-JPA-Hibernate\Exercise-09> 
