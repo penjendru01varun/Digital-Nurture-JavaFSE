@@ -1,0 +1,72 @@
+PS D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-12-Microservices\Exercise-08> mvn clean test                    
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< com.cognizant:jwt-authentication >------------------
+[INFO] Building jwt-authentication 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ jwt-authentication ---
+[INFO] Deleting D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-12-Microservices\Exercise-08\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ jwt-authentication ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ jwt-authentication ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 6 source files with javac [debug release 17] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ jwt-authentication ---
+[INFO] skip non existing resourceDirectory D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-12-Microservices\Exercise-08\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ jwt-authentication ---
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 1 source file with javac [debug release 17] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ jwt-authentication ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.cognizant.SpringLearnApplicationTests
+14:39:34.248 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.cognizant.SpringLearnApplicationTests]: SpringLearnApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:39:34.518 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.cognizant.SpringLearnApplication for test class com.cognizant.SpringLearnApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2026-07-12T14:39:35.512+05:30  INFO 17488 --- [jwt-authentication] [           main] c.cognizant.SpringLearnApplicationTests  : Starting SpringLearnApplicationTests using Java 17.0.12 with PID 17488 (started by USER in D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-12-Microservices\Exercise-08)
+2026-07-12T14:39:35.516+05:30  INFO 17488 --- [jwt-authentication] [           main] c.cognizant.SpringLearnApplicationTests  : No active profile set, falling back to 1 default profile: "default"
+2026-07-12T14:39:37.236+05:30  WARN 17488 --- [jwt-authentication] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 800a43cc-6779-47cf-83a1-baa1a5d6fcc6
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-07-12T14:39:37.721+05:30  INFO 17488 --- [jwt-authentication] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7cac93fe, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@479b5066, org.springframework.security.web.context.SecurityContextHolderFilter@3f598450, org.springframework.security.web.header.HeaderWriterFilter@772caabe, org.springframework.web.filter.CorsFilter@64deb58f, org.springframework.security.web.authentication.logout.LogoutFilter@e111c7c, com.cognizant.security.JwtTokenFilter@2b1cd7bc, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@695c938d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@d5bb1c4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@33379242, org.springframework.security.web.access.ExceptionTranslationFilter@239f017e, org.springframework.security.web.access.intercept.AuthorizationFilter@4ace284d]
+2026-07-12T14:39:38.214+05:30  INFO 17488 --- [jwt-authentication] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-07-12T14:39:38.214+05:30  INFO 17488 --- [jwt-authentication] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-07-12T14:39:38.215+05:30  INFO 17488 --- [jwt-authentication] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-07-12T14:39:38.247+05:30  INFO 17488 --- [jwt-authentication] [           main] c.cognizant.SpringLearnApplicationTests  : Started SpringLearnApplicationTests in 3.358 seconds (process running for 5.059)
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-07-12T14:39:39.785+05:30  WARN 17488 --- [jwt-authentication] [           main] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/secure' (previous null). Performing CorsConfiguration lookup. This is logged once only at WARN level, and every time at TRACE.
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.151 s -- in com.cognizant.SpringLearnApplicationTests
+[INFO] 
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  13.021 s
+[INFO] Finished at: 2026-07-12T14:39:40+05:30
+[INFO] ------------------------------------------------------------------------
+PS D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-12-Microservices\Exercise-08> 

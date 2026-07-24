@@ -1,0 +1,66 @@
+PS D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-12-Microservices\Exercise-07> mvn clean test                    
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------< com.cognizant:oauth2-resource-server >----------------
+[INFO] Building oauth2-resource-server 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ oauth2-resource-server ---
+[INFO] Deleting D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-12-Microservices\Exercise-07\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ oauth2-resource-server ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ oauth2-resource-server ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 3 source files with javac [debug release 17] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ oauth2-resource-server ---
+[INFO] skip non existing resourceDirectory D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-12-Microservices\Exercise-07\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ oauth2-resource-server ---
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 1 source file with javac [debug release 17] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ oauth2-resource-server ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.cognizant.SpringLearnApplicationTests
+14:37:38.828 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.cognizant.SpringLearnApplicationTests]: SpringLearnApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:37:39.018 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.cognizant.SpringLearnApplication for test class com.cognizant.SpringLearnApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2026-07-12T14:37:39.817+05:30  INFO 12928 --- [oauth2-resource-server] [           main] c.cognizant.SpringLearnApplicationTests  : Starting SpringLearnApplicationTests using Java 17.0.12 with PID 12928 (started by USER in D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-12-Microservices\Exercise-07)
+2026-07-12T14:37:39.819+05:30  INFO 12928 --- [oauth2-resource-server] [           main] c.cognizant.SpringLearnApplicationTests  : No active profile set, falling back to 1 default profile: "default"
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-07-12T14:37:43.189+05:30  INFO 12928 --- [oauth2-resource-server] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3dc39459, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6b16de91, org.springframework.security.web.context.SecurityContextHolderFilter@242ff747, org.springframework.security.web.header.HeaderWriterFilter@7911cc15, org.springframework.web.filter.CorsFilter@71bb8b34, org.springframework.security.web.csrf.CsrfFilter@27ab206, org.springframework.security.web.authentication.logout.LogoutFilter@4b3a01d8, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@4b4a2fa8, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@597d48ca, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@77324a58, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@197ce367, org.springframework.security.web.access.ExceptionTranslationFilter@25a5c8e, org.springframework.security.web.access.intercept.AuthorizationFilter@b56ec6c]       
+2026-07-12T14:37:43.826+05:30  INFO 12928 --- [oauth2-resource-server] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-07-12T14:37:43.826+05:30  INFO 12928 --- [oauth2-resource-server] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-07-12T14:37:43.827+05:30  INFO 12928 --- [oauth2-resource-server] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-07-12T14:37:43.864+05:30  INFO 12928 --- [oauth2-resource-server] [           main] c.cognizant.SpringLearnApplicationTests  : Started SpringLearnApplicationTests in 4.507 seconds (process running for 6.012)
+2026-07-12T14:37:44.002+05:30  WARN 12928 --- [oauth2-resource-server] [           main] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/secure' (previous null). Performing CorsConfiguration lookup. This is logged once only at WARN level, and every time at TRACE.
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.582 s -- in com.cognizant.SpringLearnApplicationTests
+[INFO] 
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  12.746 s
+[INFO] Finished at: 2026-07-12T14:37:44+05:30
+[INFO] ------------------------------------------------------------------------
+PS D:\java-deepSkilling-cognizant\DN5.0-Deep-Skilling-Java-FSE\Module-12-Microservices\Exercise-07> 
