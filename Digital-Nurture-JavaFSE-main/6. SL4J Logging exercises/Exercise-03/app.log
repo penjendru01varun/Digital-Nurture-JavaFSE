@@ -1,0 +1,8 @@
+16:13:09.384 [com.bank.AppenderExample.main()] DEBUG com.bank.AppenderExample - Debug message - checking application startup
+16:13:09.385 [com.bank.AppenderExample.main()] INFO  com.bank.AppenderExample - Application started successfully
+16:13:09.386 [com.bank.AppenderExample.main()] WARN  com.bank.AppenderExample - Warning: memory usage is above 80%
+16:13:09.386 [com.bank.AppenderExample.main()] ERROR com.bank.AppenderExample - Error: unable to connect to database
+16:13:25.691 [com.bank.AppenderExample.main()] DEBUG com.bank.AppenderExample - Debug message - checking application startup
+16:13:25.695 [com.bank.AppenderExample.main()] INFO  com.bank.AppenderExample - Application started successfully
+16:13:25.696 [com.bank.AppenderExample.main()] WARN  com.bank.AppenderExample - Warning: memory usage is above 80%
+16:13:25.709 [com.bank.AppenderExample.main()] ERROR com.bank.AppenderExample - Error: unable to connect to database
