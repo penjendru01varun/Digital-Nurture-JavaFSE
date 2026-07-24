@@ -1,0 +1,14 @@
+git branch GitNewBranch
+git branch -a
+git checkout GitNewBranch
+echo "Welcome to Git!" > welcome.txt
+git add welcome.txt
+git commit -m "Added welcome.txt on GitNewBranch"
+git status
+git checkout master
+git diff master..GitNewBranch
+git difftool master..GitNewBranch
+git merge GitNewBranch
+git log --oneline --graph --decorate
+git branch -d GitNewBranch
+git status

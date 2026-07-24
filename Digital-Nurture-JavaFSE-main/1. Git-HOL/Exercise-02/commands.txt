@@ -1,0 +1,9 @@
+echo "" > app.log
+mkdir log
+echo "debug info" > log/debug.log
+echo "*.log" > .gitignore
+echo "log/" >> .gitignore
+git status
+git add .gitignore
+git commit -m "Add .gitignore to ignore log files and log folders"
+git status

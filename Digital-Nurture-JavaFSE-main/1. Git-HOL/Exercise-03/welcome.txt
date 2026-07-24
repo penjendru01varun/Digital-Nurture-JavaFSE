@@ -1,0 +1,3 @@
+Welcome to Git!
+This file was created on the GitNewBranch to demonstrate branching in Git.
+Adding content here to track file changes on a separate branch.

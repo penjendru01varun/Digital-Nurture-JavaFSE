@@ -1,0 +1,22 @@
+git status
+git checkout -b GitWork
+echo "<xml>GitWork branch changes</xml>" > hello.xml
+git add hello.xml
+git commit -m "Add hello.xml on GitWork branch"
+git checkout master
+echo "<xml>Master trunk changes</xml>" > hello.xml
+git add hello.xml
+git commit -m "Add hello.xml on master branch"
+git log --oneline --graph --decorate --all
+git diff master..GitWork
+git difftool master..GitWork
+git merge GitWork
+git mergetool
+git add hello.xml
+echo "*.orig" >> .gitignore
+echo "*.bak" >> .gitignore
+git add .gitignore
+git commit -m "Resolve merge conflict in hello.xml and update .gitignore"
+git branch -a
+git branch -d GitWork
+git log --oneline --graph --decorate

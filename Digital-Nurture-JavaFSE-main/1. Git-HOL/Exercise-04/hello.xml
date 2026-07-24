@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<greeting>
+    <message>Conflict Resolved - Merged master and GitWork branch changes</message>
+    <status>Active</status>
+    <details>This file was modified on both master and GitWork branch causing a conflict. Resolved using 3-way merge.</details>
+</greeting>
