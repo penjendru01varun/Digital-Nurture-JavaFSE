@@ -1,0 +1,59 @@
+<section class="hero">
+    <div class="hero-main">
+        <div class="hero-title">
+            <p class="eyebrow">Welcome to</p>
+            <h1>{{ portalName }}</h1>
+            <p class="hero-copy">
+                The Student Course Portal brings course search, enrollment, and progress tracking into one view.
+                Browse available classes and enroll with confidence.
+            </p>
+        </div>
+
+        <div class="stats-row">
+            <article class="stat-card" *ngFor="let stat of stats">
+                <span class="stat-label">{{ stat.title }}</span>
+                <strong class="stat-value">{{ stat.value }}</strong>
+            </article>
+        </div>
+    </div>
+
+    <aside class="hero-actions">
+        <div class="search-panel">
+            <label>Search</label>
+            <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="updateSearch()" placeholder="Search courses">
+        </div>
+
+        <div class="search-results">
+            <div class="results-header">
+                <h2>{{ searchTerm ? 'Search results' : 'All courses' }}</h2>
+                <span *ngIf="searchTerm">Showing {{ filteredCourses.length }} matching courses</span>
+            </div>
+
+            <div class="course-grid" *ngIf="enrolledIds$ | async as enrolledIds">
+                <article class="home-course-card" *ngFor="let course of filteredCourses">
+                    <h3>{{ course.name }}</h3>
+                    <p>{{ course.code }} · {{ course.credits }} credits</p>
+                    <span class="course-status status-{{ course.gradeStatus }}">{{ course.gradeStatus | titlecase }}</span>
+                    <button class="course-enroll-button" type="button" (click)="toggleEnrollment(course, enrolledIds.includes(course.id))">
+                        {{ enrolledIds.includes(course.id) ? 'Unenroll' : 'Enroll' }}
+                    </button>
+                </article>
+            </div>
+
+            <div class="not-found" *ngIf="searchTerm && filteredCourses.length === 0">
+                Course not found. Try another course name or code.
+            </div>
+        </div>
+
+        <button [disabled]="!isPortalActive" (click)="onEnrollClick()">Enroll Now</button>
+
+        <div class="search-meta">
+            <span>Searching for:</span>
+            <strong>{{ searchTerm || 'all courses' }}</strong>
+        </div>
+    </aside>
+</section>
+
+<div class="message-card" *ngIf="message">
+    <strong>{{ message }}</strong>
+</div> 

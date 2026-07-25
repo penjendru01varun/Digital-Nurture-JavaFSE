@@ -1,0 +1,97 @@
+.form-shell {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.06);
+}
+
+.form-header {
+    margin-bottom: 26px;
+}
+
+.eyebrow {
+    margin: 0 0 10px;
+    color: #2563eb;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.82rem;
+}
+
+h1 {
+    margin: 0 0 10px;
+    font-size: 2rem;
+}
+
+.form-intro {
+    margin: 0;
+    color: #475569;
+}
+
+.field-row {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-weight: 600;
+    color: #334155;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    outline: none;
+}
+
+.checkbox-row {
+    align-items: center;
+    gap: 12px;
+}
+
+.field-hint {
+    color: #dc2626;
+    font-size: 0.92rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+button {
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+button.secondary {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.submission-banner {
+    margin-top: 24px;
+    padding: 16px 18px;
+    background: #ecfdf5;
+    border-radius: 14px;
+    color: #166534;
+}
+

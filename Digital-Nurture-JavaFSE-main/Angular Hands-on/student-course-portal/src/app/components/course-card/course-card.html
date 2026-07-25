@@ -1,0 +1,9 @@
+<article *ngIf="enrolledIds$ | async as enrolledIds" appHighlight="yellow" class="course-card" [ngClass]="cardClasses(enrolledIds.includes(course.id))" [ngStyle]="{ 'border-left-color': borderColor }">
+  <h3 (click)="openDetail()">{{ course.name }}</h3>
+  <p>{{ course.code }} · {{ course.credits | creditLabel }}</p>
+  <span [ngSwitch]="course.gradeStatus"><b *ngSwitchCase="'passed'" class="passed">Passed</b><b *ngSwitchCase="'failed'" class="failed">Failed</b><b *ngSwitchDefault class="pending">Pending</b></span>
+  <div *ngIf="isExpanded"><p>Course ID: {{ course.id }}</p></div>
+  <button type="button" (click)="openDetail()">View Course Detail</button>
+  <button type="button" (click)="toggleDetails()">{{ isExpanded ? 'Hide Quick Details' : 'Show Quick Details' }}</button>
+  <button type="button" (click)="enroll(enrolledIds.includes(course.id))">{{ enrolledIds.includes(course.id) ? 'Unenroll' : 'Enroll' }}</button>
+</article>

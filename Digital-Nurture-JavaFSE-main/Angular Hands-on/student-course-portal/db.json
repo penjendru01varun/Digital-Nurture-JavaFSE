@@ -1,0 +1,35 @@
+{
+  "courses": [
+    {
+      "name": "Database Management",
+      "code": "DB301",
+      "credits": 4,
+      "gradeStatus": "failed",
+      "id": "3"
+    },
+    {
+      "id": "4",
+      "name": "Java Programming",
+      "code": "JV101",
+      "credits": 3,
+      "gradeStatus": "passed"
+    },
+    {
+      "name": "operating system",
+      "code": "OPS142",
+      "credits": 3,
+      "gradeStatus": "passed",
+      "id": "ZDP27HR9fNA"
+    },
+    {
+      "name": "CSS",
+      "code": "CSS156",
+      "credits": 3,
+      "gradeStatus": "failed",
+      "id": "OiBo6T3ukvg"
+    }
+  ],
+  "students": [],
+  "enrollments": [],
+  "$schema": "./node_modules/json-server/schema.json"
+}

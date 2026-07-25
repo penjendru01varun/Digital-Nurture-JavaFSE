@@ -1,0 +1,79 @@
+* {
+    box-sizing: border-box;
+}
+
+.courses-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 22px;
+    align-items: flex-end;
+    margin-bottom: 24px;
+}
+
+.eyebrow {
+    margin: 0 0 10px;
+    color: #2563eb;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.82rem;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.4rem;
+    line-height: 1.05;
+}
+
+.intro-copy {
+    margin: 10px 0 0;
+    color: #475569;
+    max-width: 520px;
+}
+
+.search-group {
+    min-width: 220px;
+    max-width: 360px;
+    width: 100%;
+}
+
+.search-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.search-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    outline: none;
+}
+
+.status-banner {
+    margin-bottom: 18px;
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+}
+
+.status-error {
+    border-color: #f87171;
+    color: #b91c1c;
+}
+
+.course-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.no-courses {
+    color: #64748b;
+    font-size: 1rem;
+}
+

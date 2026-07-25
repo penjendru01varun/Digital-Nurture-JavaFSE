@@ -1,0 +1,59 @@
+<div class="form-shell">
+    <div class="form-header">
+        <p class="eyebrow">Template-Driven Form</p>
+        <h1>Enrollment Request</h1>
+        <p class="form-intro">Fill in student details to submit a new enrollment request.</p>
+    </div>
+
+    <form #enrollForm="ngForm" (ngSubmit)="onSubmit(enrollForm)">
+        <div class="field-row">
+            <label>
+                Name
+                <input name="studentName" [(ngModel)]="model.studentName" #nameCtrl="ngModel" required minlength="3">
+            </label>
+            <div class="field-hint" *ngIf="nameCtrl.touched && nameCtrl.errors?.['required']">Name is required</div>
+            <div class="field-hint" *ngIf="nameCtrl.touched && nameCtrl.errors?.['minlength']">Name must be at least 3 characters</div>
+        </div>
+
+        <div class="field-row">
+            <label>
+                Email
+                <input name="studentEmail" type="email" [(ngModel)]="model.studentEmail" #emailCtrl="ngModel" required email>
+            </label>
+            <div class="field-hint" *ngIf="emailCtrl.touched && emailCtrl.invalid">Enter a valid email</div>
+        </div>
+
+        <div class="field-row">
+            <label>
+                Course ID
+                <input name="courseId" type="number" [(ngModel)]="model.courseId" #courseCtrl="ngModel" required>
+            </label>
+            <div class="field-hint" *ngIf="courseCtrl.touched && courseCtrl.invalid">Course ID is required</div>
+        </div>
+
+        <div class="field-row">
+            <label>
+                Semester
+                <select name="preferredSemester" [(ngModel)]="model.preferredSemester" required>
+                    <option>Odd</option>
+                    <option>Even</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="field-row checkbox-row">
+            <label>
+                <input name="agreeToTerms" type="checkbox" [(ngModel)]="model.agreeToTerms" #termsCtrl="ngModel" required>
+                Agree to terms
+            </label>
+            <div class="field-hint" *ngIf="termsCtrl.touched && termsCtrl.invalid">You must agree to terms</div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" [disabled]="enrollForm.invalid">Submit</button>
+            <button type="button" class="secondary" (click)="reset(enrollForm)">Reset</button>
+        </div>
+    </form>
+
+    <div class="submission-banner" *ngIf="submitted">Enrollment request submitted successfully!</div>
+</div>

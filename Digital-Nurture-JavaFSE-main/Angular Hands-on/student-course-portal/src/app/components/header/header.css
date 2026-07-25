@@ -1,0 +1,27 @@
+header {
+    background: white;
+    color: #111827;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 32px;
+    border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+nav {
+    display: flex;
+    gap: 24px;
+}
+
+nav a {
+    color: #334155;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+nav a:hover {
+    color: #2563eb;
+}

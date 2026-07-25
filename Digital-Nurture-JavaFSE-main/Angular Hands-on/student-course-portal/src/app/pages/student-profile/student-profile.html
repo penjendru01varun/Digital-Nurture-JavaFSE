@@ -1,0 +1,25 @@
+<h1>Student Profile</h1>
+
+<div class="profile">
+
+    <h2>{{student.name}}</h2>
+
+    <p>Email : {{student.email}}</p>
+
+    <p>Department : {{student.department}}</p>
+
+    <p>Semester : {{student.semester}}</p>
+
+    <p>CGPA : {{student.cgpa}}</p>
+
+    <p>Phone : {{student.phone}}</p>
+
+</div>
+
+<h2>Enrolled Courses</h2>
+<ng-container *ngIf="enrolledCourses$ | async as enrolledCourses">
+  <p *ngIf="!enrolledCourses.length">No enrolled courses.</p>
+  <ul>
+    <li *ngFor="let course of enrolledCourses">{{ course.name }} ({{ course.code }})</li>
+  </ul>
+</ng-container>

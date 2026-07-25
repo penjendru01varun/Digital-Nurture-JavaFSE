@@ -1,0 +1,28 @@
+<section class="form-shell">
+  <div class="form-header">
+    <p class="eyebrow">HTTP Client CRUD</p>
+    <h1>{{ editingId === null ? 'Add a course' : 'Edit course' }}</h1>
+    <p class="form-intro">This screen uses GET, POST, PUT and DELETE calls through CourseService.</p>
+  </div>
+
+  <p class="submission-banner" *ngIf="message">{{ message }}</p>
+  <p class="field-hint" *ngIf="error">{{ error }}</p>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <label>Name <input formControlName="name"></label>
+    <small *ngIf="form.controls.name.touched && form.controls.name.invalid">Enter at least three characters.</small>
+    <label>Course code <input formControlName="code" placeholder="CS101"></label>
+    <small *ngIf="form.controls.code.touched && form.controls.code.invalid">Use 2–4 capital letters followed by 3 digits.</small>
+    <label>Credits <input type="number" formControlName="credits"></label>
+    <label>Status
+      <select formControlName="gradeStatus"><option value="pending">Pending</option><option value="passed">Passed</option><option value="failed">Failed</option></select>
+    </label>
+    <div class="form-actions"><button type="submit">{{ editingId === null ? 'Create' : 'Update' }}</button><button type="button" class="secondary" (click)="reset()">Clear</button></div>
+  </form>
+
+  <h2>Saved courses</h2>
+  <div class="course-row" *ngFor="let course of courses">
+    <span>{{ course.code }} — {{ course.name }} ({{ course.credits }} credits)</span>
+    <span><button type="button" (click)="edit(course)">Edit</button><button type="button" class="danger" (click)="remove(course)">Delete</button></span>
+  </div>
+</section>

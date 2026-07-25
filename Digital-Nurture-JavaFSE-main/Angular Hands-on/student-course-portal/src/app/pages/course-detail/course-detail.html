@@ -1,0 +1,12 @@
+<div *ngIf="course$ | async as course; else loading">
+  <h2>{{ course.name }}</h2>
+  <p><strong>Code:</strong> {{ course.code }}</p>
+  <p><strong>Credits:</strong> {{ course.credits | creditLabel }}</p>
+  <p>
+    <strong>Grade Status:</strong>
+    <span [ngClass]="{ 'status-passed': course.gradeStatus === 'passed', 'status-failed': course.gradeStatus === 'failed' }">{{ course.gradeStatus }}</span>
+  </p>
+</div>
+<ng-template #loading>
+  <p>Loading course...</p>
+</ng-template>

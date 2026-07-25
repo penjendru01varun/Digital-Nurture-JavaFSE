@@ -1,0 +1,24 @@
+<div class="courses-header">
+    <div>
+        <p class="eyebrow">Course catalog</p>
+        <h1>Available courses</h1>
+        <p class="intro-copy">Search and enroll in the right courses for your semester.</p>
+    </div>
+
+    <div class="search-group">
+        <label>Search</label>
+        <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="updateSearch()" placeholder="Search course code or title">
+    </div>
+</div>
+
+<div *ngIf="isLoading$ | async" class="status-banner">Loading courses...</div>
+<div *ngIf="errorMessage$ | async as error" class="status-banner status-error">{{ error }}</div>
+
+<section *ngIf="filteredCourses$ | async as courses; else noCourses" class="course-grid">
+    <app-course-card *ngFor="let course of courses; trackBy: trackByCourseId" [course]="course" (enrollRequested)="onEnroll($event)"></app-course-card>
+    <p *ngIf="courses.length === 0" class="no-courses">No matching courses found.</p>
+</section>
+
+<ng-template #noCourses>
+    <p class="no-courses">No courses available.</p>
+</ng-template>
